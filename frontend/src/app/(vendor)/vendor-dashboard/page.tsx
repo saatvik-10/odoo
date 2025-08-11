@@ -34,7 +34,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { kpiData, recentOrders, topCategories, topCustomers, topProducts } from '@/constant';
+import { kpiData, recentOrders, topCategories, topCustomers, topProducts } from '@/constant/dashboard';
 
 export default function VendorDashboard() {
 

@@ -22,22 +22,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { mockOrders } from '@/constant';
+import { mockOrders } from '@/constant/dashboard';
 
 type ViewMode = 'card' | 'list';
 
 type RentalStatus = 'quotation' | 'pickup' | 'returned' | 'reserved';
-
-interface RentalOrder {
-  id: string;
-  orderReference: string;
-  customer: string;
-  createdBy: string;
-  rentalStatus: RentalStatus;
-  amount: number;
-  pickupDate?: string;
-  returnDate?: string;
-}
 
 export default function RentalDashboard() {
   const [viewMode, setViewMode] = useState<ViewMode>('card');
@@ -326,70 +315,6 @@ export default function RentalDashboard() {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      {/* <div className='bg-white border-b'>
-        <div className='flex items-center justify-between px-4 lg:px-6 py-4'>
-          <div className='flex items-center space-x-4'>
-            Mobile menu button
-            <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-              <SheetTrigger asChild>
-                <Button variant='ghost' size='sm' className='lg:hidden'>
-                  <Menu className='h-4 w-4' />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side='left' className='w-80 p-6'>
-                <div className='space-y-4'>
-                  <h2 className='text-lg font-semibold'>Navigation</h2>
-                  <nav className='flex flex-col space-y-2'>
-                    {[
-                      'Dashboard',
-                      'Rental',
-                      'Order',
-                      'Products',
-                      'Reporting',
-                      'Setting',
-                    ].map((item, index) => (
-                      <Button
-                        key={item}
-                        variant={index === 1 ? 'default' : 'ghost'}
-                        size='sm'
-                        className={`${index === 1 ? 'bg-gray-900 text-white' : ''} justify-start`}
-                      >
-                        {item}
-                      </Button>
-                    ))}
-                  </nav>
-                </div>
-              </SheetContent>
-            </Sheet>
-
-            <nav className="flex space-x-1 overflow-x-auto">
-              {["Dashboard", "Rental", "Order", "Products", "Reporting", "Setting"].map((item, index) => (
-                <Button
-                  key={item}
-                  variant={index === 1 ? "default" : "ghost"}
-                  size="sm"
-                  className={`${index === 1 ? "bg-gray-900 text-white" : ""} whitespace-nowrap text-xs sm:text-sm`}
-                >
-                  <span className="hidden sm:inline">{item}</span>
-                  <span className="sm:hidden">{item.slice(0, 3)}</span>
-                </Button>
-              ))}
-            </nav>
-          </div>
-          <div className='flex items-center space-x-2 sm:space-x-4'>
-            <Avatar className='h-6 w-6 sm:h-8 sm:w-8'>
-              <AvatarFallback>
-                <User className='h-3 w-3 sm:h-4 sm:w-4' />
-              </AvatarFallback>
-            </Avatar>
-            <span className='text-xs sm:text-sm font-medium hidden sm:inline'>
-              Adam
-            </span>
-          </div>
-        </div>
-      </div> */}
-
       {/* Mobile Status Filter - positioned below navbar */}
       <div className='lg:hidden bg-white border-b px-4 py-2'>
         <div className='flex justify-end'>
