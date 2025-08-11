@@ -7,5 +7,9 @@ const app = new Hono();
 
 app.get("/me", authenticate, userController.getMe);
 app.get("/:id", authenticate, userController.getUserById);
+app.post("/address", authenticate, userController.createAddress);
+app.put("/address/:id", authenticate, userController.updateAddress);
+app.get("/address", authenticate, userController.getAddresses);
 
-export default app
+export default app;
+
