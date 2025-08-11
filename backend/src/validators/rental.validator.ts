@@ -1,5 +1,17 @@
 import z from "zod";
 
+export const rentalStatusSchema = z.enum([
+  "Quotation",
+  "Reserved",
+  "Picked Up",
+  "Delivered",
+  "Returned",
+  "Received By Vendor",
+  "Cancelled",
+]);
+
+export type RentalStatus = z.infer<typeof rentalStatusSchema>;
+
 export const rentalSchema = z.object({
   id: z.any(),
   rentalID: z.number().min(1),
@@ -26,15 +38,8 @@ export const rentalSchema = z.object({
     city: z.string().min(1),
     state: z.string().min(1),
   }),
-  status: z.enum([
-    "Quotation",
-    "Reserved",
-    "Picked Up",
-    "Delivered",
-    "Returned",
-    "Received By Vendor",
-    "Cancelled",
-  ]),
+  status: rentalStatusSchema,
+  reasonForCancellation: z.string().nullish(),
   products: z.array(
     z.object({
       product: z.any(),
@@ -61,3 +66,9 @@ export const createRentalSchema = rentalSchema.omit({
 });
 
 export type CreateRental = z.infer<typeof createRentalSchema>;
+
+export const cancelRentalSchema = z.object({
+  reason: z.string().min(10),
+});
+
+export type CancelRental = z.infer<typeof cancelRentalSchema>;

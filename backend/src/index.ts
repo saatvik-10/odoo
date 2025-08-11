@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import exampleRoutes from "@/routes/example.routes";
 import couponRoutes from "@/routes/coupon.routes";
 import authRoutes from "@/routes/auth.routes";
+import userRoutes from "@/routes/user.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
 
@@ -26,8 +27,9 @@ app.get("/health", (c) => {
 
 // API Routes
 const apiRoutes = new Hono();
+apiRoutes.route("/user", userRoutes);
 apiRoutes.route("/example", exampleRoutes);
-apiRoutes.route("/coupon", couponRoutes)
+apiRoutes.route("/coupon", couponRoutes);
 apiRoutes.route("/auth", authRoutes);
 
 // Mount API routes
@@ -43,7 +45,7 @@ app.onError((err, c) => {
   console.error("Error:", err);
   return c.json(
     { error: "Internal Server Error" },
-    StatusCodes.INTERNAL_SERVER_ERROR,
+    StatusCodes.INTERNAL_SERVER_ERROR
   );
 });
 

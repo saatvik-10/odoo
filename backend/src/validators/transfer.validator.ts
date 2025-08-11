@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+export const transferStatusSchema = z.enum([
+  "initiated",
+  "processing",
+  "completed",
+  "cancelled",
+]); 
+
+export type TransferStatus = z.infer<typeof transferStatusSchema>;
+
 export const transferSchema = z.object({
   user: z.any(),
   vendor: z.any(),
@@ -50,3 +59,5 @@ export const updateTransferSchema = transferSchema
     rentalID: true,
   })
   .partial();
+
+export type UpdateTransfer = z.infer<typeof updateTransferSchema>;

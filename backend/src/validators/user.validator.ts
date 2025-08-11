@@ -26,7 +26,7 @@ export const registerUserSchema = z.object({
     .min(8)
     .max(20)
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
     ),
 });
 
@@ -38,3 +38,12 @@ export const loginUserSchema = z.object({
 });
 
 export type LoginUserValidator = z.infer<typeof loginUserSchema>;
+
+export const responseUserSchema = z.object({
+  id: z.any(),
+  name: z.string(),
+  email: z.string(),
+  mobileNumber: z.number().int().positive(),
+});
+
+export type ResponseUser = z.infer<typeof responseUserSchema>;

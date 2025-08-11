@@ -10,6 +10,10 @@ export class ProductService {
     return await ProductModel.find({});
   }
 
+  async getProductsFromIDList(idList: string[]) {
+    return await ProductModel.find({ _id: { $in: idList } });
+  }
+
   async getProductsByVendorId(id: string) {
     return await ProductModel.find({ vendor: id });
   }

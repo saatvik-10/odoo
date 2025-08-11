@@ -7,3 +7,5 @@ const app = new Hono();
 
 app.get("/me", authenticate, userController.getMe);
 app.get("/:id", authenticate, userController.getUserById);
+
+export default app

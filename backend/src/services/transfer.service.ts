@@ -1,5 +1,8 @@
 import Transfer from "@/models/transfer.model";
-import type { CreateTransfer } from "@/validators/transfer.validator";
+import type {
+  CreateTransfer,
+  TransferStatus,
+} from "@/validators/transfer.validator";
 
 export class TransferService {
   async createTransfer(data: CreateTransfer) {
@@ -20,5 +23,13 @@ export class TransferService {
 
   async getTransferByVendorID(id: string) {
     return Transfer.find({ vendor: id });
+  }
+
+  async updateTransferByID(id: string, data: CreateTransfer) {
+    await Transfer.updateOne({ _id: id }, data);
+  }
+
+  async updateTransferStatus(id: string, status: TransferStatus) {
+    await Transfer.updateOne({ _id: id }, { status });
   }
 }
