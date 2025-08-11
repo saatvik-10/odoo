@@ -38,7 +38,7 @@ apiRoutes.route("/coupon", couponRoutes);
 apiRoutes.route("/auth", authRoutes);
 apiRoutes.route("/transfer", transferRoutes)
 apiRoutes.route("/vendor",vendorRoutes);
-apiroutes.route("/product", productRoutes)
+apiRoutes.route("/product", productRoutes)
 apiRoutes.route("/admin",adminRoutes)
 
 // Mount API routes
