@@ -5,13 +5,19 @@ export class UserService {
     return UserModal.findById(id);
   }
 
+  async getUserByEmail(email: string) {
+    return UserModal.findOne({ email });
+  }
+
   async createUser(userData: RegisterUserValidator, hash: string) {
-    await UserModal.create({
+    const user = await UserModal.create({
       name: userData.name,
       email: userData.email,
       mobileNumber: userData.mobileNumber!,
       hash,
+      
     });
+    return user;
   }
 
   async updateUser(id: string, userData: Partial<User>) {
