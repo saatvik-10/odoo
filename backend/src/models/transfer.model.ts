@@ -100,6 +100,9 @@ const transferSchema = new mongoose.Schema(
       type: String,
       enum: ["pickup", "return"],
     },
+    transferMethod: {
+      type: String,
+    },
     status: {
       type: String,
       enum: ["initiated", "processing", "completed", "cancelled"],

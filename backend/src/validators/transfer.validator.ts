@@ -26,8 +26,11 @@ export const transferSchema = z.object({
     state: z.string().min(1),
   }),
   pickupDate: z.date(),
+  transferMethod: z.string(),
   transferType: z.enum(["pickup", "return"]),
-  status: z.enum(["initiated", "processing", "completed", "cancelled"]).default("initiated"),
+  status: z
+    .enum(["initiated", "processing", "completed", "cancelled"])
+    .default("initiated"),
 });
 
 export type Transfer = z.infer<typeof transferSchema>;
