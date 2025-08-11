@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Search,
   ChevronLeft,
@@ -11,25 +11,25 @@ import {
   MoreVertical,
   ChevronDown,
   ChevronUp,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Checkbox } from "@/components/ui/checkbox";
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { mockOrders } from "@/constant";
+} from '@/components/ui/dialog';
+import { mockOrders } from '@/constant';
 
-type ViewMode = "card" | "list";
+type ViewMode = 'card' | 'list';
 
-type RentalStatus = "quotation" | "pickup" | "returned" | "reserved";
+type RentalStatus = 'quotation' | 'pickup' | 'returned' | 'reserved';
 
 interface RentalOrder {
   id: string;
@@ -43,31 +43,31 @@ interface RentalOrder {
 }
 
 export default function RentalDashboard() {
-  const [viewMode, setViewMode] = useState<ViewMode>("card");
+  const [viewMode, setViewMode] = useState<ViewMode>('card');
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
-  const [activeStatusFilter, setActiveStatusFilter] = useState<string>("ALL");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeStatusFilter, setActiveStatusFilter] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
   // Filter and search logic
   const filteredOrders = mockOrders.filter((order) => {
     const matchesStatus =
-      activeStatusFilter === "ALL" ||
-      (activeStatusFilter === "Quotation" &&
-        order.rentalStatus === "quotation") ||
-      (activeStatusFilter === "Reserved" &&
-        order.rentalStatus === "reserved") ||
-      (activeStatusFilter === "Pickup" && order.rentalStatus === "pickup") ||
-      (activeStatusFilter === "Returned" && order.rentalStatus === "returned");
+      activeStatusFilter === 'ALL' ||
+      (activeStatusFilter === 'Quotation' &&
+        order.rentalStatus === 'quotation') ||
+      (activeStatusFilter === 'Reserved' &&
+        order.rentalStatus === 'reserved') ||
+      (activeStatusFilter === 'Pickup' && order.rentalStatus === 'pickup') ||
+      (activeStatusFilter === 'Returned' && order.rentalStatus === 'returned');
     // (activeStatusFilter === 'Quotation sent' &&
     //   order.rentalStatus === 'quotation-sent');
 
     const matchesSearch =
-      searchQuery === "" ||
+      searchQuery === '' ||
       order.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.orderReference.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.createdBy.toLowerCase().includes(searchQuery.toLowerCase());
@@ -83,17 +83,17 @@ export default function RentalDashboard() {
 
   // Status counts
   const getStatusCount = (status: string) => {
-    if (status === "ALL") return mockOrders.length;
+    if (status === 'ALL') return mockOrders.length;
     return mockOrders.filter((order) => {
       switch (status) {
-        case "Quotation":
-          return order.rentalStatus === "quotation";
-        case "Reserved":
-          return order.rentalStatus === "reserved";
-        case "Pickup":
-          return order.rentalStatus === "pickup";
-        case "Returned":
-          return order.rentalStatus === "returned";
+        case 'Quotation':
+          return order.rentalStatus === 'quotation';
+        case 'Reserved':
+          return order.rentalStatus === 'reserved';
+        case 'Pickup':
+          return order.rentalStatus === 'pickup';
+        case 'Returned':
+          return order.rentalStatus === 'returned';
         // case 'Quotation sent':
         //   return order.rentalStatus === 'quotation-sent';
         default:
@@ -150,24 +150,24 @@ export default function RentalDashboard() {
   const getStatusBadge = (status: RentalStatus) => {
     const statusConfig = {
       quotation: {
-        label: "Quotation",
-        variant: "secondary" as const,
-        className: "bg-blue-100 text-blue-800",
+        label: 'Quotation',
+        variant: 'secondary' as const,
+        className: 'bg-blue-100 text-blue-800',
       },
       pickup: {
-        label: "Pickup",
-        variant: "secondary" as const,
-        className: "bg-yellow-100 text-yellow-800",
+        label: 'Pickup',
+        variant: 'secondary' as const,
+        className: 'bg-yellow-100 text-yellow-800',
       },
       returned: {
-        label: "Returned",
-        variant: "destructive" as const,
-        className: "bg-red-100 text-red-800",
+        label: 'Returned',
+        variant: 'destructive' as const,
+        className: 'bg-red-100 text-red-800',
       },
       reserved: {
-        label: "Reserved",
-        variant: "secondary" as const,
-        className: "bg-green-100 text-green-800",
+        label: 'Reserved',
+        variant: 'secondary' as const,
+        className: 'bg-green-100 text-green-800',
       },
       // 'quotation-sent': {
       //   label: 'Quotation sent',
@@ -191,65 +191,65 @@ export default function RentalDashboard() {
     collapsed?: boolean;
     setSidebarCollapsed: any;
   }) => (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className='flex items-center justify-between mb-4'>
           <h3
-            className={`font-semibold text-gray-900 text-sm transition-all ${collapsed ? "hidden" : "block"}`}
+            className={`font-semibold text-gray-900 text-sm transition-all ${collapsed ? 'hidden' : 'block'}`}
           >
             RENTAL STATUS
           </h3>
           <Button
-            variant="ghost"
-            size="sm"
+            variant='ghost'
+            size='sm'
             onClick={() => setSidebarCollapsed(!collapsed)}
-            className="hidden lg:flex h-6 w-6 p-0"
+            className='hidden lg:flex h-6 w-6 p-0'
           >
             {collapsed ? (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className='h-4 w-4' />
             ) : (
-              <ChevronUp className="h-4 w-4" />
+              <ChevronUp className='h-4 w-4' />
             )}
           </Button>
         </div>
         <div
-          className={`space-y-1 transition-all ${collapsed ? "hidden" : "block"}`}
+          className={`space-y-1 transition-all ${collapsed ? 'hidden' : 'block'}`}
         >
-          {["ALL", "Quotation", "Reserved", "Pickup", "Returned"].map(
+          {['ALL', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
             (status) => (
               <div
                 key={status}
                 className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm cursor-pointer transition-colors ${
                   activeStatusFilter === status
-                    ? "bg-blue-50 text-blue-700 font-medium"
-                    : ""
+                    ? 'bg-blue-50 text-blue-700 font-medium'
+                    : ''
                 }`}
                 onClick={() => handleStatusFilter(status)}
               >
                 <span>{status}</span>
-                <span className="text-gray-500">{getStatusCount(status)}</span>
+                <span className='text-gray-500'>{getStatusCount(status)}</span>
               </div>
             )
           )}
         </div>
       </div>
 
-      <div className={collapsed ? "hidden" : "block"}>
-        <h3 className="font-semibold text-gray-900 mb-4 text-sm">
+      <div className={collapsed ? 'hidden' : 'block'}>
+        <h3 className='font-semibold text-gray-900 mb-4 text-sm'>
           INVOICE STATUS
         </h3>
-        <div className="space-y-1">
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+        <div className='space-y-1'>
+          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
             <span>Fully Invoiced</span>
-            <span className="text-gray-500">5</span>
+            <span className='text-gray-500'>5</span>
           </div>
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
             <span>Nothing to invoice</span>
-            <span className="text-gray-500">5</span>
+            <span className='text-gray-500'>5</span>
           </div>
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
             <span>To invoice</span>
-            <span className="text-gray-500">5</span>
+            <span className='text-gray-500'>5</span>
           </div>
         </div>
       </div>
@@ -265,28 +265,28 @@ export default function RentalDashboard() {
   }) => (
     <Dialog open={statusModalOpen} onOpenChange={setStatusModalOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="lg:hidden">
-          <MoreVertical className="h-4 w-4" />
+        <Button variant='ghost' size='sm' className='lg:hidden'>
+          <MoreVertical className='h-4 w-4' />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className='sm:max-w-md'>
         <DialogHeader>
           <DialogTitle>Filters</DialogTitle>
         </DialogHeader>
-        <div className="space-y-6 py-4">
+        <div className='space-y-6 py-4'>
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4 text-sm">
+            <h3 className='font-semibold text-gray-900 mb-4 text-sm'>
               RENTAL STATUS
             </h3>
-            <div className="space-y-1">
-              {["ALL", "Quotation", "Reserved", "Pickup", "Returned"].map(
+            <div className='space-y-1'>
+              {['ALL', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
                 (status) => (
                   <div
                     key={status}
                     className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm cursor-pointer transition-colors ${
                       activeStatusFilter === status
-                        ? "bg-blue-50 text-blue-700 font-medium"
-                        : ""
+                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        : ''
                     }`}
                     onClick={() => {
                       handleStatusFilter(status);
@@ -294,7 +294,7 @@ export default function RentalDashboard() {
                     }}
                   >
                     <span>{status}</span>
-                    <span className="text-gray-500">
+                    <span className='text-gray-500'>
                       {getStatusCount(status)}
                     </span>
                   </div>
@@ -304,21 +304,21 @@ export default function RentalDashboard() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4 text-sm">
+            <h3 className='font-semibold text-gray-900 mb-4 text-sm'>
               INVOICE STATUS
             </h3>
-            <div className="space-y-1">
-              <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+            <div className='space-y-1'>
+              <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
                 <span>Fully Invoiced</span>
-                <span className="text-gray-500">5</span>
+                <span className='text-gray-500'>5</span>
               </div>
-              <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+              <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
                 <span>Nothing to invoice</span>
-                <span className="text-gray-500">5</span>
+                <span className='text-gray-500'>5</span>
               </div>
-              <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm">
+              <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
                 <span>To invoice</span>
-                <span className="text-gray-500">5</span>
+                <span className='text-gray-500'>5</span>
               </div>
             </div>
           </div>
@@ -328,7 +328,7 @@ export default function RentalDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className='min-h-screen bg-gray-50'>
       {/* Header */}
       {/* <div className='bg-white border-b'>
         <div className='flex items-center justify-between px-4 lg:px-6 py-4'>
@@ -394,8 +394,8 @@ export default function RentalDashboard() {
       </div> */}
 
       {/* Mobile Status Filter - positioned below navbar */}
-      <div className="lg:hidden bg-white border-b px-4 py-2">
-        <div className="flex justify-end">
+      <div className='lg:hidden bg-white border-b px-4 py-2'>
+        <div className='flex justify-end'>
           <StatusModal
             statusModalOpen={statusModalOpen}
             setStatusModalOpen={setStatusModalOpen}
@@ -403,11 +403,11 @@ export default function RentalDashboard() {
         </div>
       </div>
 
-      <div className="flex">
+      <div className='flex'>
         {/* Desktop Sidebar */}
         <div
           className={`hidden lg:block bg-white border-r min-h-screen p-6 transition-all duration-300 ${
-            sidebarCollapsed ? "w-16" : "w-80"
+            sidebarCollapsed ? 'w-16' : 'w-80'
           }`}
         >
           <SidebarContent
@@ -417,77 +417,77 @@ export default function RentalDashboard() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-3 sm:p-4 lg:p-6">
-          <div className="bg-white rounded-lg border">
+        <div className='flex-1 p-3 sm:p-4 lg:p-6'>
+          <div className='bg-white rounded-lg border'>
             {/* Content Header */}
-            <div className="p-4 sm:p-6 border-b">
-              <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                <div className="flex items-center space-x-4">
+            <div className='p-4 sm:p-6 border-b'>
+              <div className='flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0'>
+                <div className='flex items-center md:justify-start justify-center space-x-4'>
                   {/* <Button className='bg-purple-600 hover:bg-purple-700 text-xs sm:text-sm'>
                     Create
                   </Button> */}
-                  <h2 className="text-base sm:text-lg font-semibold">
+                  <h2 className='text-base sm:text-lg font-bold'>
                     Rental Orders
                   </h2>
                 </div>
 
-                <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
+                <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4'>
                   {/* Search */}
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <div className='relative'>
+                    <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400' />
                     <Input
-                      placeholder="Search..."
-                      className="pl-10 w-full sm:w-64 text-sm"
+                      placeholder='Search...'
+                      className='pl-10 w-full sm:w-64 text-sm'
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                     />
                   </div>
 
                   {/* Pagination and View Toggle */}
-                  <div className="flex items-center justify-between sm:justify-start sm:space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs sm:text-sm text-gray-600">
+                  <div className='flex items-center justify-between sm:justify-start sm:space-x-4'>
+                    <div className='flex items-center space-x-2'>
+                      <span className='text-xs sm:text-sm text-gray-600'>
                         {filteredOrders.length > 0
                           ? `${startIndex + 1}-${Math.min(endIndex, filteredOrders.length)}/${filteredOrders.length}`
-                          : "0-0/0"}
+                          : '0-0/0'}
                       </span>
                       <Button
-                        variant="outline"
-                        size="sm"
+                        variant='outline'
+                        size='sm'
                         onClick={handlePrevPage}
                         disabled={currentPage <= 1}
                       >
-                        <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <ChevronLeft className='h-3 w-3 sm:h-4 sm:w-4' />
                       </Button>
                       <Button
-                        variant="outline"
-                        size="sm"
+                        variant='outline'
+                        size='sm'
                         onClick={handleNextPage}
                         disabled={currentPage >= totalPages}
                       >
-                        <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <ChevronRight className='h-3 w-3 sm:h-4 sm:w-4' />
                       </Button>
                     </div>
 
                     {/* View Toggle */}
-                    <div className="flex border rounded-md">
+                    <div className='flex border rounded-md'>
                       <Button
-                        variant={viewMode === "card" ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => setViewMode("card")}
-                        className="rounded-r-none text-xs sm:text-sm px-2 sm:px-3"
+                        variant={viewMode === 'card' ? 'default' : 'ghost'}
+                        size='sm'
+                        onClick={() => setViewMode('card')}
+                        className='rounded-r-none text-xs sm:text-sm px-2 sm:px-3'
                       >
-                        <LayoutGrid className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
-                        <span className="hidden sm:inline">Card</span>
+                        <LayoutGrid className='h-3 w-3 sm:h-4 sm:w-4 sm:mr-1' />
+                        <span className='hidden sm:inline'>Card</span>
                       </Button>
                       <Button
-                        variant={viewMode === "list" ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => setViewMode("list")}
-                        className="rounded-l-none border-l text-xs sm:text-sm px-2 sm:px-3"
+                        variant={viewMode === 'list' ? 'default' : 'ghost'}
+                        size='sm'
+                        onClick={() => setViewMode('list')}
+                        className='rounded-l-none border-l text-xs sm:text-sm px-2 sm:px-3'
                       >
-                        <List className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
-                        <span className="hidden sm:inline">List</span>
+                        <List className='h-3 w-3 sm:h-4 sm:w-4 sm:mr-1' />
+                        <span className='hidden sm:inline'>List</span>
                       </Button>
                     </div>
                   </div>
@@ -496,14 +496,14 @@ export default function RentalDashboard() {
             </div>
 
             {/* Content Body */}
-            <div className="p-3 sm:p-4 lg:p-6">
-              {viewMode === "list" ? (
+            <div className='p-3 sm:p-4 lg:p-6'>
+              {viewMode === 'list' ? (
                 // Table View
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[800px]">
+                <div className='overflow-x-auto'>
+                  <table className='w-full min-w-[800px]'>
                     <thead>
-                      <tr className="border-b">
-                        <th className="text-left p-2 sm:p-3">
+                      <tr className='border-b'>
+                        <th className='text-left p-2 sm:p-3'>
                           <Checkbox
                             checked={
                               currentOrders.length > 0 &&
@@ -514,22 +514,22 @@ export default function RentalDashboard() {
                             onCheckedChange={handleSelectAll}
                           />
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600'>
                           Order Ref
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600'>
                           Customer
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600 hidden md:table-cell">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600 hidden md:table-cell'>
                           Created by
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600'>
                           Status
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600 hidden sm:table-cell">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600 hidden sm:table-cell'>
                           Tax
                         </th>
-                        <th className="text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600">
+                        <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600'>
                           Total
                         </th>
                       </tr>
@@ -538,9 +538,9 @@ export default function RentalDashboard() {
                       {currentOrders.map((order) => (
                         <tr
                           key={order.id}
-                          className="border-b hover:bg-gray-50"
+                          className='border-b hover:bg-gray-50'
                         >
-                          <td className="p-2 sm:p-3">
+                          <td className='p-2 sm:p-3'>
                             <Checkbox
                               checked={selectedOrders.includes(order.id)}
                               onCheckedChange={() =>
@@ -548,30 +548,30 @@ export default function RentalDashboard() {
                               }
                             />
                           </td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm font-mono">
+                          <td className='p-2 sm:p-3 text-xs sm:text-sm font-mono'>
                             {order.orderReference}
                           </td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                          <td className='p-2 sm:p-3 text-xs sm:text-sm'>
                             {order.customer}
                           </td>
-                          <td className="p-2 sm:p-3 hidden md:table-cell">
-                            <div className="flex items-center space-x-2">
-                              <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
+                          <td className='p-2 sm:p-3 hidden md:table-cell'>
+                            <div className='flex items-center space-x-2'>
+                              <Avatar className='h-5 w-5 sm:h-6 sm:w-6'>
                                 {/* {user.firstName.toUpperCase()} */}
-                                <AvatarFallback className="text-xs">
+                                <AvatarFallback className='text-xs'>
                                   A
                                 </AvatarFallback>
                               </Avatar>
-                              <span className="text-xs sm:text-sm">
+                              <span className='text-xs sm:text-sm'>
                                 {order.createdBy}
                               </span>
                             </div>
                           </td>
-                          <td className="p-2 sm:p-3">
+                          <td className='p-2 sm:p-3'>
                             {getStatusBadge(order.rentalStatus)}
                           </td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm hidden sm:table-cell"></td>
-                          <td className="p-2 sm:p-3 text-xs sm:text-sm font-medium">
+                          <td className='p-2 sm:p-3 text-xs sm:text-sm hidden sm:table-cell'></td>
+                          <td className='p-2 sm:p-3 text-xs sm:text-sm font-medium'>
                             ₹ {order.amount}
                           </td>
                         </tr>
@@ -581,31 +581,31 @@ export default function RentalDashboard() {
                 </div>
               ) : (
                 // Card View
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4'>
                   {currentOrders.map((order) => (
                     <Card
                       key={order.id}
-                      className="hover:shadow-md transition-shadow"
+                      className='hover:shadow-md transition-shadow'
                     >
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-medium text-xs sm:text-sm truncate pr-2">
+                      <CardContent className='p-3 sm:p-4'>
+                        <div className='flex items-center justify-between mb-3'>
+                          <h3 className='font-medium text-xs sm:text-sm truncate pr-2'>
                             {order.customer}
                           </h3>
-                          <span className="text-sm sm:text-lg font-bold whitespace-nowrap">
+                          <span className='text-sm sm:text-lg font-bold whitespace-nowrap'>
                             ₹ {order.amount}
                           </span>
                         </div>
-                        <div className="space-y-2">
-                          <div className="text-xs text-gray-600 font-mono">
+                        <div className='space-y-2'>
+                          <div className='text-xs text-gray-600 font-mono'>
                             {order.orderReference}
                           </div>
                           {order.pickupDate && (
-                            <div className="text-xs text-gray-500 truncate">
+                            <div className='text-xs text-gray-500 truncate'>
                               Pickup: {order.pickupDate}
                             </div>
                           )}
-                          <div className="flex items-center justify-between">
+                          <div className='flex items-center justify-between'>
                             {getStatusBadge(order.rentalStatus)}
                           </div>
                         </div>
