@@ -1,2 +1,2 @@
-export { EndUserNavbar } from './navbars/EndUserNavbar';
+export { EndUserNavbar } from './navbars/VendorNavbar';
 export { CustomerNavbar } from './navbars/CustomerNavbar';
