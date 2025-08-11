@@ -1,0 +1,53 @@
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { StatusCodes } from "http-status-codes";
+import exampleRoutes from "@/routes/example.routes";
+import { logger } from "hono/logger";
+import { connectDB } from "./utils/db";
+
+// Connect to MongoDB
+await connectDB(process.env.MONGO_URI as string);
+
+// Initialize Hono app
+const app = new Hono();
+
+//logger
+app.use(logger())
+
+// CORS Middleware
+app.use(cors());
+
+
+// Health check endpoint
+app.get("/health", (c) => {
+  return c.json({ status: "ok", service: "ai-core-bun" });
+});
+
+// API Routes
+const apiRoutes = new Hono();
+apiRoutes.route("/example", exampleRoutes);
+
+// Mount API routes
+app.route("/api", apiRoutes);
+
+// 404 Handler
+app.notFound((c) => {
+  return c.json({ error: "Not Found" }, StatusCodes.NOT_FOUND);
+});
+
+// Error Handler
+app.onError((err, c) => {
+  console.error("Error:", err);
+  return c.json({ error: "Internal Server Error" }, StatusCodes.INTERNAL_SERVER_ERROR);
+});
+
+// Export the app
+const port = process.env.PORT ? Number.parseInt(process.env.PORT) : 5000;
+
+console.log(`Server is running on port ${port}`);
+
+export default {
+  port,
+  fetch: app.fetch,
+  idleTimeout: 0, // Disable idle timeout
+};
