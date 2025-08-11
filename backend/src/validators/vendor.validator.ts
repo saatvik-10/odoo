@@ -3,7 +3,7 @@ import {z} from "zod";
 export const vendorSchema = z.object({
     name : z.string().min(3, "Name must be at least 3 characters long").max(20),
     email : z.email(),
-    mobileNumber : z.string().min(10, "Mobile number must be at least 10 characters long").max(15, "Mobile number must be at most 15 characters long"),
+    mobileNumber : z.number().min(1000000000, "Mobile number must be at least 10 digits").max(9999999999, "Mobile number must be at most 15 digits"),
     hash : z.string().min(6, "Password must be at least 6 characters long"),
     address : z.object({
         addressLine1 : z.string(),
@@ -19,7 +19,7 @@ export type Vendor = z.infer<typeof vendorSchema>;
 export const registerVendorSchema = z.object({
     name : z.string().min(3, "Name must be at least 3 characters long").max(20),
     email : z.email(),
-    mobileNumber : z.string().min(10, "Mobile number must be at least 10 characters long").max(15, "Mobile number must be at most 15 characters long"),
+    mobileNumber : z.number().min(1000000000, "Mobile number must be at least 10 digits").max(9999999999, "Mobile number must be at most 15 digits"),
     password : z.string().min(6, "Password must be at least 6 characters long").max(20, "Password must be at most 20 characters long"),
 })
 

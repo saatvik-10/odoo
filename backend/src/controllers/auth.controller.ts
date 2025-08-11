@@ -51,10 +51,12 @@ export class AuthController {
         StatusCodes.OK
       );
     } catch (error) {
+        console.error(error);
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }
       return ctx.json(
+
         { error: "An error occurred during login" },
         StatusCodes.INTERNAL_SERVER_ERROR
       );
@@ -77,14 +79,15 @@ export class AuthController {
       return ctx.json({
         token,
         user: createdUser,
-      });
+      },StatusCodes.CREATED);
     } catch (error) {
+        console.error(error);
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }
       return ctx.json({
         error: "Interval Server Error",
-      });
+      },StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
