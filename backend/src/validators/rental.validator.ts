@@ -39,6 +39,7 @@ export const rentalSchema = z.object({
     state: z.string().min(1),
   }),
   status: rentalStatusSchema,
+  reasonForCancellation: z.string().nullish(),
   products: z.array(
     z.object({
       product: z.any(),
@@ -65,3 +66,9 @@ export const createRentalSchema = rentalSchema.omit({
 });
 
 export type CreateRental = z.infer<typeof createRentalSchema>;
+
+export const cancelRentalSchema = z.object({
+  reason: z.string().min(10),
+});
+
+export type CancelRental = z.infer<typeof cancelRentalSchema>;
