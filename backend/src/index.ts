@@ -12,15 +12,14 @@ await connectDB(process.env.MONGO_URI as string);
 const app = new Hono();
 
 //logger
-app.use(logger())
+app.use(logger());
 
 // CORS Middleware
 app.use(cors());
 
-
 // Health check endpoint
 app.get("/health", (c) => {
-  return c.json({ status: "ok", service: "ai-core-bun" });
+  return c.json({ status: "ok", service: "Rentals-Backend" });
 });
 
 // API Routes
@@ -38,7 +37,10 @@ app.notFound((c) => {
 // Error Handler
 app.onError((err, c) => {
   console.error("Error:", err);
-  return c.json({ error: "Internal Server Error" }, StatusCodes.INTERNAL_SERVER_ERROR);
+  return c.json(
+    { error: "Internal Server Error" },
+    StatusCodes.INTERNAL_SERVER_ERROR,
+  );
 });
 
 // Export the app
