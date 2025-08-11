@@ -9,7 +9,15 @@ export class TransferController {
   async createTransfer(ctx: Context) {
     try {
       const body = createTransferSchema.parse(await ctx.req.json());
-      await transferService.createTransfer(body);
+      const rental = await transferService.getTransferByID(body.rentalID);
+      if (!rental) {
+        return ctx.json(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND);
+      }
+      await transferService.createTransfer(
+        body,
+        rental.user.toString(),
+        rental.vendor.toString(),
+      );
       return ctx.json(ReasonPhrases.OK, StatusCodes.OK);
     } catch (err) {
       return ctx.json(
