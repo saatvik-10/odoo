@@ -50,3 +50,5 @@ export const updateTransferSchema = transferSchema
     rentalID: true,
   })
   .partial();
+
+  export type UpdateTransfer = z.infer<typeof updateTransferSchema>;

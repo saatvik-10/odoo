@@ -9,33 +9,33 @@ import {
 } from '@/validators/vendor.validator';
 import { Axios } from 'axios';
 
-export class Auth {
+export class AuthAPI {
   axios: Axios;
   constructor(axios: Axios) {
     this.axios = axios;
   }
 
-  async LoginUser(data: LoginUserValidator) {
+  async loginUser(data: LoginUserValidator) {
     const { data: res } = await this.axios.post('/login', data);
     return res;
   }
 
-  async RegisterUser(data: RegisterUserValidator) {
+  async registerUser(data: RegisterUserValidator) {
     const { data: res } = await this.axios.post('/register', data);
     return res;
   }
 
-  async RegisterAdmin(data: RegisterAdminValidator) {
+  async registerAdmin(data: RegisterAdminValidator) {
     const { data: res } = await this.axios.post('/auth/admin/register', data);
     return res;
   }
 
-  async LoginVendor(data: LoginVendorValidator) {
+  async loginVendor(data: LoginVendorValidator) {
     const { data: res } = await this.axios.post('/vendor/login', data);
     return res;
   }
 
-  async RegisterVendor(data: RegisterVendorValidator) {
+  async registerVendor(data: RegisterVendorValidator) {
     const { data: res } = await this.axios.post('/vendor/register', data);
     return res;
   }

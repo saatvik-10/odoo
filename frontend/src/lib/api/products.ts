@@ -5,7 +5,7 @@ import {
 } from '@/validators/product.validator';
 import { Axios } from 'axios';
 
-export class Products {
+export class ProductsAPI {
   axios: Axios;
 
   constructor(axios: Axios) {

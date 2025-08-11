@@ -1,19 +1,19 @@
 import {
   CreateTransfer,
-  // UpdateTransfer,
+  UpdateTransfer,
   Transfer,
 } from '@/validators/transfer.validator';
 import { Axios } from 'axios';
 
-export class Transfers {
+export class TransfersAPI {
   axios: Axios;
 
   constructor(axios: Axios) {
     this.axios = axios;
   }
 
-  async getTransfers(): Promise<Transfer[]> {
-    const { data: res } = await this.axios.get('/transfers');
+  async getTransferByRentalID(rentalId: string): Promise<Transfer[]> {
+    const { data: res } = await this.axios.get(`/transfer/rental/${rentalId}`);
     return res;
   }
 
@@ -27,12 +27,25 @@ export class Transfers {
     return res;
   }
 
-  // async updateTransfer(transferId: string, data: UpdateTransfer): Promise<Transfer> {
-  //   const { data: res } = await this.axios.put(`/transfer/${transferId}`, data);
-  //   return res;
-  // }
+  async getTransferByUserID(userId: string): Promise<Transfer[]> {
+    const { data: res } = await this.axios.get(`/transfer/user/${userId}`);
+    return res;
+  }
 
-  async deleteTransfer(transferId: string): Promise<void> {
-    await this.axios.delete(`/transfer/${transferId}`);
+  async getTransferByVendorID(vendorId: string): Promise<Transfer[]> {
+    const { data: res } = await this.axios.get(`/transfer/vendor/${vendorId}`);
+    return res;
+  }
+
+  async updateTransferByID(
+    transferId: string,
+    data: UpdateTransfer
+  ): Promise<UpdateTransfer> {
+    const { data: res } = await this.axios.put(`/transfer/${transferId}`, data);
+    return res;
+  }
+
+  async updateTransferStatus(transferId: string): Promise<void> {
+    await this.axios.patch(`/transfer/${transferId}/status`);
   }
 }
