@@ -24,6 +24,8 @@ export class RentalController {
       //
       //TODO: Reduce available quantity of products.
 
+      //TODO: Check if coupon code is applicable and apply it.
+
       //Checking if all products belong to same vendor
       const vendor = products[0].vendor;
       for (let i = 0; i < products.length; i++) {
