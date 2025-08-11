@@ -59,4 +59,17 @@ export class CouponController {
       );
     }
   }
+
+  async deleteCoupon(ctx: Context) {
+    try {
+      const id = ctx.req.param("id");
+      await couponService.deleteCoupon(id as string);
+      return ctx.json(ReasonPhrases.OK, StatusCodes.OK);
+    } catch (error) {
+      return ctx.json(
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

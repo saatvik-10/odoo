@@ -17,4 +17,8 @@ export class CouponService {
   async getCouponByID(id: string) {
     return Coupon.findById(id);
   }
+
+  async deleteCoupon(id: string) {
+    await Coupon.deleteOne({ _id: id });
+  }
 }
