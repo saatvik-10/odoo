@@ -5,7 +5,7 @@ export const productSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   vendor: z.any(),
-  category: z.string().optional(),
+  category: z.string().nullish(),
   price: z.object({
     hourly: z.number().min(1),
     daily: z.number().min(1),
