@@ -11,9 +11,4 @@ export class AdminAPI {
     const { data: res } = await this.axios.get('/me');
     return res;
   }
-
-  async getAdminById(id: string) {
-    const { data: res } = await this.axios.get(`/${id}`);
-    return res;
-  }
 }
