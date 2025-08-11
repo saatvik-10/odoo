@@ -6,11 +6,6 @@ export const rentalSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
@@ -33,7 +28,7 @@ export const rentalSchema = new mongoose.Schema(
       durationType: {
         type: String,
         required: true,
-        enum: ["Months", "Days", "Hours"],
+        enum: ["monthly", "daily", "hourly"],
       },
       durationValue: {
         type: Number,
@@ -143,6 +138,11 @@ export const rentalSchema = new mongoose.Schema(
     totalAmt: {
       type: Number,
       default: 0,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "confirmed"],
+      default: "pending",
     },
   },
   {

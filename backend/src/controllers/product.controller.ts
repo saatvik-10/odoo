@@ -49,11 +49,12 @@ export class ProductController {
 
   async createProduct(ctx: Context) {
     try {
-      const vendor = ctx.req.param("vendor");
+      const vendor = ctx.get("userId");
       const body = createProductSchema.parse(await ctx.req.json());
       await productService.createProduct(vendor, body);
       return ctx.json(ReasonPhrases.CREATED, StatusCodes.CREATED);
     } catch (error) {
+      console.error(error)
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
         StatusCodes.INTERNAL_SERVER_ERROR,

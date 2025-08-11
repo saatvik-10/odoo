@@ -117,7 +117,7 @@ export class AuthController {
         {
           token,
           vendor: {
-            ...vendor.toObject(),
+            ...vendor,
             _id: vendor._id.toString(),
           }
         },
@@ -192,10 +192,10 @@ export class AuthController {
       return ctx.json(
         {
           token,
-          admin: adminSchema.parse({
+          admin: {
             ...admin.toObject(),
             _id: admin._id.toString(),
-          }),
+          }
         },
         StatusCodes.OK
       );
