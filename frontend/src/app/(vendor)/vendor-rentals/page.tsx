@@ -14,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -22,7 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { mockOrders } from '@/constant/dashboard';
+import { mockOrders, RentalOrder } from '@/constant/dashboard';
 
 type ViewMode = 'card' | 'list';
 
@@ -34,15 +33,19 @@ export default function RentalDashboard() {
   // const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
-  const [activeStatusFilter, setActiveStatusFilter] = useState<string>('ALL');
+  const [activeStatusFilter, setActiveStatusFilter] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
+  const handleRoute = (order: RentalOrder) => {
+    console.log(order)
+  }
+
   // Filter and search logic
   const filteredOrders = mockOrders.filter((order) => {
     const matchesStatus =
-      activeStatusFilter === 'ALL' ||
+      activeStatusFilter === 'All' ||
       (activeStatusFilter === 'Quotation' &&
         order.rentalStatus === 'quotation') ||
       (activeStatusFilter === 'Reserved' &&
@@ -69,7 +72,7 @@ export default function RentalDashboard() {
 
   // Status counts
   const getStatusCount = (status: string) => {
-    if (status === 'ALL') return mockOrders.length;
+    if (status === 'All') return mockOrders.length;
     return mockOrders.filter((order) => {
       switch (status) {
         case 'Quotation':
@@ -201,13 +204,13 @@ export default function RentalDashboard() {
         <div
           className={`space-y-1 transition-all ${collapsed ? 'hidden' : 'block'}`}
         >
-          {['ALL', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
+          {['All', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
             (status) => (
               <div
                 key={status}
-                className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm cursor-pointer transition-colors ${
+                className={`flex items-center justify-between p-2 hover:bg-orange-100 rounded text-sm cursor-pointer transition-colors ${
                   activeStatusFilter === status
-                    ? 'bg-blue-50 text-blue-700 font-medium'
+                    ? 'bg-blue-50 text-orange-600 font-medium'
                     : ''
                 }`}
                 onClick={() => handleStatusFilter(status)}
@@ -225,15 +228,15 @@ export default function RentalDashboard() {
           INVOICE STATUS
         </h3>
         <div className='space-y-1'>
-          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
+          <div className='flex items-center justify-between p-2 hover:bg-orange-100 rounded text-sm'>
             <span>Fully Invoiced</span>
             <span className='text-gray-500'>5</span>
           </div>
-          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
+          <div className='flex items-center justify-between p-2 hover:bg-orange-100 rounded text-sm'>
             <span>Nothing to invoice</span>
             <span className='text-gray-500'>5</span>
           </div>
-          <div className='flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm'>
+          <div className='flex items-center justify-between p-2 hover:bg-orange-100 rounded text-sm'>
             <span>To invoice</span>
             <span className='text-gray-500'>5</span>
           </div>
@@ -265,13 +268,13 @@ export default function RentalDashboard() {
               RENTAL STATUS
             </h3>
             <div className='space-y-1'>
-              {['ALL', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
+              {['All', 'Quotation', 'Reserved', 'Pickup', 'Returned'].map(
                 (status) => (
                   <div
                     key={status}
-                    className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded text-sm cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between p-2 hover:bg-orange-100 rounded text-sm cursor-pointer transition-colors ${
                       activeStatusFilter === status
-                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        ? 'bg-blue-50 text-orange-600 font-medium'
                         : ''
                     }`}
                     onClick={() => {
@@ -397,7 +400,7 @@ export default function RentalDashboard() {
                         variant={viewMode === 'card' ? 'default' : 'ghost'}
                         size='sm'
                         onClick={() => setViewMode('card')}
-                        className='rounded-r-none text-xs sm:text-sm px-2 sm:px-3'
+                        className={`rounded-r-none hover:bg-orange-100 text-xs sm:text-sm px-2 sm:px-3 ${viewMode === 'card' ? 'hover:bg-orange-600 bg-orange-600' : ''}`}
                       >
                         <LayoutGrid className='h-3 w-3 sm:h-4 sm:w-4 sm:mr-1' />
                         <span className='hidden sm:inline'>Card</span>
@@ -406,7 +409,7 @@ export default function RentalDashboard() {
                         variant={viewMode === 'list' ? 'default' : 'ghost'}
                         size='sm'
                         onClick={() => setViewMode('list')}
-                        className='rounded-l-none border-l text-xs sm:text-sm px-2 sm:px-3'
+                        className={`rounded-l-none hover:bg-orange-100 border-l text-xs sm:text-sm px-2 sm:px-3 ${viewMode === 'list' ? 'hover:bg-orange-600 bg-orange-600' : ''} `}
                       >
                         <List className='h-3 w-3 sm:h-4 sm:w-4 sm:mr-1' />
                         <span className='hidden sm:inline'>List</span>
@@ -425,17 +428,6 @@ export default function RentalDashboard() {
                   <table className='w-full min-w-[800px]'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left p-2 sm:p-3'>
-                          <Checkbox
-                            checked={
-                              currentOrders.length > 0 &&
-                              currentOrders.every((order) =>
-                                selectedOrders.includes(order.id)
-                              )
-                            }
-                            onCheckedChange={handleSelectAll}
-                          />
-                        </th>
                         <th className='text-left p-2 sm:p-3 text-xs sm:text-sm font-medium text-gray-600'>
                           Order Ref
                         </th>
@@ -460,16 +452,9 @@ export default function RentalDashboard() {
                       {currentOrders.map((order) => (
                         <tr
                           key={order.id}
-                          className='border-b hover:bg-gray-50'
+                          className='border-b hover:bg-orange-100'
+                          onClick={() => handleRoute(order)}
                         >
-                          <td className='p-2 sm:p-3'>
-                            <Checkbox
-                              checked={selectedOrders.includes(order.id)}
-                              onCheckedChange={() =>
-                                handleSelectOrder(order.id)
-                              }
-                            />
-                          </td>
                           <td className='p-2 sm:p-3 text-xs sm:text-sm font-mono'>
                             {order.orderReference}
                           </td>
@@ -507,7 +492,7 @@ export default function RentalDashboard() {
                   {currentOrders.map((order) => (
                     <Card
                       key={order.id}
-                      className='hover:shadow-md transition-shadow'
+                      className='hover:shadow-md transition-shadow hover:shadow-orange-200'
                     >
                       <CardContent className='p-3 sm:p-4'>
                         <div className='flex items-center justify-between mb-3'>

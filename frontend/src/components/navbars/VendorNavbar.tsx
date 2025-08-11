@@ -51,8 +51,7 @@ export function VendorNavbar() {
                         size='sm'
                         className={cn(
                           'justify-start',
-                          active &&
-                            'bg-gray-900 text-white hover:bg-gray-900/90'
+                          active && 'bg-orange-600 hover:bg-orange-600/60'
                         )}
                         onClick={() => setOpen(false)}
                       >
@@ -77,8 +76,8 @@ export function VendorNavbar() {
                   className={cn(
                     'px-3 py-1.5 rounded-md font-medium transition-colors',
                     active
-                      ? 'bg-gray-900 text-white'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-gray-100'
+                      ? 'bg-orange-600 text-white'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-orange-100'
                   )}
                 >
                   {item.label}
@@ -94,7 +93,11 @@ export function VendorNavbar() {
             </AvatarFallback>
           </Avatar>
           <span className='hidden sm:inline text-sm font-medium'>Vendor</span>
-          <Button variant='outline' size='sm' className='text-xs'>
+          <Button
+            variant='outline'
+            size='sm'
+            className='text-xs hover:bg-orange-100'
+          >
             Logout
           </Button>
         </div>

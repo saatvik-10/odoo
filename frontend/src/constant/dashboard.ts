@@ -1,8 +1,8 @@
 import { Package, ShoppingCart, DollarSign, Users } from 'lucide-react';
 
-type RentalStatus = 'quotation' | 'pickup' | 'returned' | 'reserved';
+export type RentalStatus = 'quotation' | 'pickup' | 'returned' | 'reserved';
 
-interface RentalOrder {
+export interface RentalOrder {
   id: string;
   orderReference: string;
   customer: string;

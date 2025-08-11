@@ -1,10 +1,10 @@
-type OrderStatus =
+export type OrderStatus =
   | 'quotation'
   | 'reserved'
   | 'pickedup'
   | 'delivered'
   | 'returned';
-
+ 
 export interface RentalOrder {
   id: string;
   customer: string;
