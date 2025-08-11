@@ -23,30 +23,29 @@ const vendorSchema = new mongoose.Schema(
     address: {
       addressLine1: {
         type: String,
-        required: false,
         trim: true,
       },
 
       street: {
         type: String,
-        required: true,
         trim: true,
       },
       pincode: {
         type: String,
-        required: true,
         trim: true,
       },
       city: {
         type: String,
-        required: true,
         trim: true,
       },
       state: {
         type: String,
-        required: true,
       },
     },
+    verified : {
+        type : Boolean,
+        default : false,
+    }
   },
   { timestamps: true }
 );

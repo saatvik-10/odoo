@@ -6,7 +6,7 @@ export class AdminService {
         return Admin.findOne({ email });
     }
 
-    async createAdmin(adminData: admin ) {
+    async createAdmin(adminData: admin ,hash: string) {
         const admin = await Admin.create({
             email: adminData.email,
             password: adminData.password, // Assuming password is hashed before saving
