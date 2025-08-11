@@ -47,7 +47,6 @@ export type Transfer = z.infer<typeof transferSchema>;
 export const createTransferSchema = transferSchema.omit({
   user: true,
   vendor: true,
-  rentalID: true,
 });
 
 export type CreateTransfer = z.infer<typeof createTransferSchema>;

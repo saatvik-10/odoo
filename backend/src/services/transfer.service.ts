@@ -5,7 +5,7 @@ import type {
 } from "@/validators/transfer.validator";
 
 export class TransferService {
-  async createTransfer(data: CreateTransfer) {
+  async createTransfer(data: CreateTransfer, user: string, vendor: string) {
     await Transfer.create(data);
   }
 

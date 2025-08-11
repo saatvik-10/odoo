@@ -5,6 +5,7 @@ import exampleRoutes from "@/routes/example.routes";
 import couponRoutes from "@/routes/coupon.routes";
 import authRoutes from "@/routes/auth.routes";
 import userRoutes from "@/routes/user.routes";
+import transferRoutes from "@/routes/transfer.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
 
@@ -31,6 +32,7 @@ apiRoutes.route("/user", userRoutes);
 apiRoutes.route("/example", exampleRoutes);
 apiRoutes.route("/coupon", couponRoutes);
 apiRoutes.route("/auth", authRoutes);
+apiRoutes.route("/transfer", transferRoutes)
 
 // Mount API routes
 app.route("/api", apiRoutes);
