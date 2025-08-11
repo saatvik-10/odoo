@@ -15,10 +15,7 @@ export class AdminController {
       const admin = await adminService.getAdminById(adminId);
       return ctx.json(
         {
-          admin: adminSchema.parse({
-            ...admin?.toObject(),
-            id: admin?._id.toString(),
-          }),
+          admin
         },
         StatusCodes.OK
       );
