@@ -177,12 +177,12 @@ export function VendorSignIn({ onSuccess, redirectTo }: VendorSignInProps) {
               {isLoading ? (
                 <>
                   <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  Creating Account...
+                  Loading
                 </>
               ) : success ? (
                 <>
                   <CheckCircle className='mr-2 h-4 w-4' />
-                  Account Created!
+                  Signed in successfully
                 </>
               ) : (
                 'Sign Up'

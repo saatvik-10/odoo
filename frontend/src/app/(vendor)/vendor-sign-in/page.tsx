@@ -4,7 +4,7 @@ import React from 'react';
 const VendorSignInPage = () => {
   return (
     <div className='flex items-center justify-center h-screen'>
-      <VendorSignIn />
+      <VendorSignIn redirectTo='/vendor-dashboard' />
     </div>
   );
 };
