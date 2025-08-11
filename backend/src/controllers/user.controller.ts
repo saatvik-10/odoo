@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 
 const userServices = new UserService();
 
-export class userController {
+export class UserController {
     async getMe(ctx : Context){
         try {
             const userId = ctx.get("userId")
