@@ -5,12 +5,9 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
-  User,
   LayoutGrid,
   List,
   MoreVertical,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,7 +42,7 @@ interface RentalOrder {
 export default function RentalDashboard() {
   const [viewMode, setViewMode] = useState<ViewMode>('card');
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [activeStatusFilter, setActiveStatusFilter] = useState<string>('ALL');
@@ -206,9 +203,9 @@ export default function RentalDashboard() {
             className='hidden lg:flex h-6 w-6 p-0'
           >
             {collapsed ? (
-              <ChevronDown className='h-4 w-4' />
+              <ChevronRight className='h-4 w-4' />
             ) : (
-              <ChevronUp className='h-4 w-4' />
+              <ChevronLeft className='h-4 w-4' />
             )}
           </Button>
         </div>
