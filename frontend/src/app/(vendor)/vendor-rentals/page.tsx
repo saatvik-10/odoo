@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { mockOrders, RentalOrder } from '@/constant/dashboard';
+import { usePathname, useRouter } from 'next/navigation';
 
 type ViewMode = 'card' | 'list';
 
@@ -38,9 +39,12 @@ export default function RentalDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
+  const pathname = usePathname();
+  const router = useRouter();
+
   const handleRoute = (order: RentalOrder) => {
-    console.log(order)
-  }
+    router.push(`${pathname}/${order.id}`);
+  };
 
   // Filter and search logic
   const filteredOrders = mockOrders.filter((order) => {
