@@ -31,20 +31,18 @@ export class RentalAPI {
     return res;
   }
 
-  async updateRentalStatus(id: string, data: Partial<Rental>) {
-    const { data: res } = await this.axios.patch(`/status/${id}`, data);
+  async updateRentalStatus(id: string, status: RentalStatus) {
+    const { data: res } = await this.axios.patch(`/status/${id}`, { status });
     return res;
   }
 
   async cancelRental(id: string) {
-    const { data: res } = await this.axios.delete(`/status/${id}`, {
-      data: { status: 'cancelled' },
-    });
+    const { data: res } = await this.axios.delete(`/cancel/${id}`);
     return res;
   }
 
-  async deleteRental(id: string) {
-    const { data: res } = await this.axios.delete(`/${id}`);
+  async approveRental(id: string) {
+    const { data: res } = await this.axios.patch(`/approve/${id}`);
     return res;
   }
 }

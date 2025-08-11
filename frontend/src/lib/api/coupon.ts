@@ -30,4 +30,9 @@ export class CouponAPI {
     const { data: res } = await this.axios.get(`/code/${couponCode}`);
     return res;
   }
+
+  async deleteCoupon(code: string) {
+    const { data: res } = await this.axios.delete(`/${code}`);
+    return res;
+  }
 }
