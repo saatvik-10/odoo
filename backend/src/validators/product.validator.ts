@@ -26,7 +26,8 @@ export const productSchema = z.object({
     yearly: z.number().min(1),
   }),
   images: z.array(z.string().min(1)),
-  stock: z.number().min(1),
+  stock: z.number().min(0),
+  public: z.boolean().default(false),
 });
 
 export type Product = z.infer<typeof productSchema>;
@@ -41,6 +42,6 @@ export type CreateProduct = z.infer<typeof createProductSchema>;
 export const updateProductSchema = productSchema.omit({
   id: true,
   vendor: true,
-});
+}).partial();
 
 export type UpdateProduct = z.infer<typeof updateProductSchema>;
