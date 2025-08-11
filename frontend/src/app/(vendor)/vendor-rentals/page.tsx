@@ -404,7 +404,7 @@ export default function RentalDashboard() {
         {/* Desktop Sidebar */}
         <div
           className={`hidden lg:block bg-white border-r min-h-screen p-6 transition-all duration-300 ${
-            sidebarCollapsed ? 'w-16' : 'w-80'
+            sidebarCollapsed ? 'w-16' : 'w-64'
           }`}
         >
           <SidebarContent
