@@ -11,7 +11,7 @@ const productService = new ProductService();
 export class RentalController {
   async createRental(ctx: Context) {
     try {
-      const user = ctx.get("userID");
+      const user = ctx.get("userId");
       const body = createRentalSchema.parse(await ctx.req.json());
       const products = await productService.getProductsFromIDList(
         body.products.map((product) => product.product),
@@ -51,7 +51,7 @@ export class RentalController {
 
   async getRentalsForUser(ctx: Context) {
     try {
-      const user = ctx.get("userID")
+      const user = ctx.get("userId")
       const rentals = await rentalService.getUserRentals(user);
       return ctx.json(rentals);
     } catch (error) {

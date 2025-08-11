@@ -59,7 +59,7 @@ export class UserController {
   }
   async createAddress(ctx: Context) {
     try {
-      const userId = ctx.get("userID");
+      const userId = ctx.get("userId");
       const body = createAddressValidator.parse(await ctx.req.json());
       await addressServices.createAddress(userId, body);
       return ctx.json(ReasonPhrases.CREATED, StatusCodes.CREATED);
@@ -75,7 +75,7 @@ export class UserController {
   }
   async getAddresses(ctx: Context) {
     try {
-      const userId = ctx.get("userID");
+      const userId = ctx.get("userId");
       const addresses = await addressServices.getAddressByUserId(userId);
       return ctx.json(
         addresses.map((address) => ({
@@ -93,7 +93,7 @@ export class UserController {
   }
   async updateAddress(ctx: Context) {
     try {
-      const userId = ctx.get("userID");
+      const userId = ctx.get("userId");
       const addressId = ctx.req.param("id");
       const body = updateAddressValidator.parse(await ctx.req.json());
       await addressServices.updateAddress(addressId, userId, body);
