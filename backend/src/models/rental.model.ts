@@ -28,7 +28,7 @@ export const rentalSchema = new mongoose.Schema(
       durationType: {
         type: String,
         required: true,
-        enum: ["Months", "Days", "Hours"],
+        enum: ["monthly", "daily", "hourly"],
       },
       durationValue: {
         type: Number,

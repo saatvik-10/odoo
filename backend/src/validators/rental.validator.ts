@@ -21,7 +21,7 @@ export const rentalSchema = z.object({
   startDate: z.date(),
   endDate: z.date(),
   duration: z.object({
-    durationType: z.enum(["Months", "Days", "Hours"]),
+    durationType: z.enum(["monthly", "daily", "hourly"]),
     durationValue: z.number().min(1),
   }),
   invoiceAddress: z.object({

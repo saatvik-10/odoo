@@ -20,14 +20,14 @@ const productSchema = new mongoose.Schema(
       hourly: Number,
       daily: Number,
       monthly: Number,
-      yearly: Number,
     },
     specialPrices: [
       {
+        startDate: Date,
+        endDate: Date,
         hourly: Number,
         daily: Number,
         monthly: Number,
-        yearly: Number,
       },
     ],
     extraPricing: {
