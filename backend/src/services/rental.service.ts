@@ -2,11 +2,12 @@ import Rental from "@/models/rental.model";
 import type { CreateRental, RentalStatus } from "@/validators/rental.validator";
 
 export class RentalService {
-  async createRental(userID: string, vendorID: string, data: CreateRental) {
+  async createRental(userID: string, vendorID: string, rentalID: number, data: CreateRental) {
     await Rental.create({
       ...data,
       user: userID,
       vendor: vendorID,
+      rentalID: rentalID,
     });
   }
 

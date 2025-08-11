@@ -1,7 +1,11 @@
 import { rentalSchema } from "@/models/rental.model";
 import { ProductService } from "@/services/product.service";
 import { RentalService } from "@/services/rental.service";
-import { cancelRentalSchema, createRentalSchema } from "@/validators/rental.validator";
+import {
+  cancelRentalSchema,
+  createRentalSchema,
+  type CreateRental,
+} from "@/validators/rental.validator";
 import type { Context } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
@@ -12,11 +16,14 @@ export class RentalController {
   async createRental(ctx: Context) {
     try {
       const user = ctx.get("userId");
-      const body = createRentalSchema.parse(await ctx.req.json());
+      let body: CreateRental = await ctx.req.json();
+      body.startDate = new Date(body.startDate);
+      body.endDate = new Date(body.endDate);
+      body = createRentalSchema.parse(body);
       const products = await productService.getProductsFromIDList(
-        body.products.map((product) => product.product),
+        body.products.map((product) => product.product)
       );
-      if (products.length < 1) {
+      if (products.length < 1 || products.length != body.products.length) {
         return ctx.json(ReasonPhrases.BAD_REQUEST, StatusCodes.BAD_REQUEST);
       }
 
@@ -32,32 +39,34 @@ export class RentalController {
         if (products[i].vendor != vendor) {
           return ctx.json(
             { msg: "Cannot create rental with different vendors" },
-            StatusCodes.BAD_REQUEST,
+            StatusCodes.BAD_REQUEST
           );
         }
       }
 
       // Creating rental
-      await rentalService.createRental(user, vendor.toString(), body);
+      const rentalID = Math.floor(Math.random() * 1000000); // Generate a random rental ID
+      await rentalService.createRental(user, vendor.toString(), rentalID, body);
 
       return ctx.json(ReasonPhrases.CREATED, StatusCodes.CREATED);
     } catch (error) {
+      console.error(error)
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
 
   async getRentalsForUser(ctx: Context) {
     try {
-      const user = ctx.get("userId")
+      const user = ctx.get("userId");
       const rentals = await rentalService.getUserRentals(user);
       return ctx.json(rentals);
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
@@ -70,7 +79,7 @@ export class RentalController {
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
@@ -83,7 +92,7 @@ export class RentalController {
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
@@ -97,7 +106,7 @@ export class RentalController {
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
@@ -111,7 +120,7 @@ export class RentalController {
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }
@@ -124,7 +133,7 @@ export class RentalController {
     } catch (error) {
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
-        StatusCodes.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   }

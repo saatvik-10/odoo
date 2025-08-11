@@ -6,11 +6,6 @@ export const rentalSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",

@@ -7,11 +7,11 @@ import authRoutes from "@/routes/auth.routes";
 import vendorRoutes from "@/routes/vendor.routes";
 import userRoutes from "@/routes/user.routes";
 import transferRoutes from "@/routes/transfer.routes";
-import productRoutes from "@/routes/product.routes"
+import productRoutes from "@/routes/product.routes";
 import adminRoutes from "@/routes/admin.routes";
+import rentalRoutes from "@/routes/rental.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
-
 
 // Connect to MongoDB
 await connectDB(process.env.MONGO_URI as string);
@@ -36,10 +36,11 @@ apiRoutes.route("/user", userRoutes);
 apiRoutes.route("/example", exampleRoutes);
 apiRoutes.route("/coupon", couponRoutes);
 apiRoutes.route("/auth", authRoutes);
-apiRoutes.route("/transfer", transferRoutes)
-apiRoutes.route("/vendor",vendorRoutes);
-apiRoutes.route("/product", productRoutes)
-apiRoutes.route("/admin",adminRoutes)
+apiRoutes.route("/transfer", transferRoutes);
+apiRoutes.route("/vendor", vendorRoutes);
+apiRoutes.route("/product", productRoutes);
+apiRoutes.route("/rental", rentalRoutes);
+apiRoutes.route("/admin", adminRoutes);
 
 // Mount API routes
 app.route("/api", apiRoutes);

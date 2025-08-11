@@ -63,6 +63,7 @@ export const createRentalSchema = rentalSchema.omit({
   amount: true,
   tax: true,
   totalAmt: true,
+  rentalID: true,
 });
 
 export type CreateRental = z.infer<typeof createRentalSchema>;
