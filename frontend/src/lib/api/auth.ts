@@ -16,12 +16,12 @@ export class AuthAPI {
   }
 
   async loginUser(data: LoginUserValidator) {
-    const { data: res } = await this.axios.post('/login', data);
+    const { data: res } = await this.axios.post('/auth/login', data);
     return res;
   }
 
   async registerUser(data: RegisterUserValidator) {
-    const { data: res } = await this.axios.post('/register', data);
+    const { data: res } = await this.axios.post('/auth/register', data);
     return res;
   }
 
@@ -31,12 +31,12 @@ export class AuthAPI {
   }
 
   async loginVendor(data: LoginVendorValidator) {
-    const { data: res } = await this.axios.post('/vendor/login', data);
+    const { data: res } = await this.axios.post('/auth/vendor/login', data);
     return res;
   }
 
   async registerVendor(data: RegisterVendorValidator) {
-    const { data: res } = await this.axios.post('/vendor/register', data);
+    const { data: res } = await this.axios.post('/auth/vendor/register', data);
     return res;
   }
 }
