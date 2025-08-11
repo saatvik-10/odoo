@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
+  id: z.any(),
   name: z.string().min(3, "Name is required"),
   email: z.string(),
   mobileNumber: z
@@ -9,7 +10,7 @@ export const userSchema = z.object({
     .positive("Mobile number must be a positive integer"),
 });
 
-export type UserValidator = z.infer<typeof userSchema>;
+export type User = z.infer<typeof userSchema>;
 
 export const registerUserSchema = z.object({
   name: z.string().min(3, "Name is required").max(20),
@@ -25,7 +26,7 @@ export const registerUserSchema = z.object({
     .min(8)
     .max(20)
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     ),
 });
 
