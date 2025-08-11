@@ -1,7 +1,7 @@
 import type { Context, Next } from "hono";
 import { StatusCodes } from "http-status-codes";
 
-export const admin = async (ctx: Context, next: Next) => {
+export const vendor = async (ctx: Context, next: Next) => {
   const userId = ctx.get("userId");
   if (!userId) {
     return ctx.json(
@@ -10,7 +10,7 @@ export const admin = async (ctx: Context, next: Next) => {
     );
   }
   const role = ctx.get("role");
-  if (role !== "admin") {
+  if (role !== "vendor") {
     return ctx.json(
       {
         message: "You do not have permission to access this resource",

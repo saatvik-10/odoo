@@ -16,7 +16,7 @@ export const authenticate = async (ctx: Context, next: Next) => {
     authorization = authorization.split(" ")[1].trim();
     const user = await verifyJWT(authorization);
     ctx.set("user", user.role);
-    ctx.set("userID", user._id);
+    ctx.set("userId", user._id);
     await next();
     return;
   } catch (e) {
