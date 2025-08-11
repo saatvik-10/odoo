@@ -1,27 +1,31 @@
-import * as jwt from "hono/jwt";
+import { StatusCodes } from "http-status-codes";
+import { verifyJWT } from "../lib/auth.lib";
+import type { Context, Next } from "hono";
 
-
-//Return hash as a object
-export const getPasswordKeys = async (password : string) => {
-    const hash = await Bun.password.hash(password);
-    return { hash };
-}
-
-//Verify password against hash
-//Bun.password.verify extracts the salt and algorithm from the hash string automatically
-export const validatePassword = async (password : string, hash : string) => {
-    return await Bun.password.verify(password, hash);
-}
-
-//Generates JWT for users
-export const generateJWT = async (data : IJWTData) : Promise<string> => {
-    const expiry = Math.floor(Date.now() / 1000) + 60 * 5 * 24 * 60; // 5 Days
-    return await jwt.sign({ ...data, exp: expiry }, process.env.JWT_SECRET!);
-}
-
-//Verifies JWT for users
-//Returns IJWTData if valid, throws error if invalid
-export const verifyJWT = async (token : string) : Promise<IJWTData> => {
-    const data = await jwt.verify(token, process.env.JWT_SECRET!);
-    return data as unknown as IJWTData;
-}
+export const authenticate = async (ctx: Context, next: Next) => {
+  try {
+    let authorization = ctx.req.header("Authorization");
+    if (!authorization) {
+      return ctx.json(
+        {
+          message: "Authorization header is required",
+        },
+        StatusCodes.UNAUTHORIZED,
+      );
+    }
+    authorization = authorization.split(" ")[1].trim();
+    const user = await verifyJWT(authorization);
+    ctx.set("user", user.role);
+    ctx.set("userId", user._id);
+    await next();
+    return;
+  } catch (e) {
+    console.error(e);
+    return ctx.json(
+      {
+        message: "Invalid token",
+      },
+      StatusCodes.UNAUTHORIZED,
+    );
+  }
+};
