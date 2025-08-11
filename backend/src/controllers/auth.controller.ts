@@ -192,10 +192,10 @@ export class AuthController {
       return ctx.json(
         {
           token,
-          admin: adminSchema.parse({
+          admin: {
             ...admin.toObject(),
             _id: admin._id.toString(),
-          }),
+          }
         },
         StatusCodes.OK
       );

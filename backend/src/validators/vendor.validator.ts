@@ -11,7 +11,7 @@ export const vendorSchema = z.object({
         pincode : z.string().min(6, "Pincode must be at least 6 characters long").max(10, "Pincode must be at most 10 characters long"),
         city : z.string().min(3, "City is required"),
         state : z.string().min(3, "State is required"),
-    })
+    }).optional(),
 })
 
 export type Vendor = z.infer<typeof vendorSchema>;

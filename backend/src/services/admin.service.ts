@@ -6,10 +6,15 @@ export class AdminService {
         return Admin.findOne({ email });
     }
 
+    async getAdminById(id: string) {
+        return Admin.findById(id);
+    }
+
     async createAdmin(adminData: admin ,hash: string) {
         const admin = await Admin.create({
+            name: adminData.name,
             email: adminData.email,
-            password: adminData.password, // Assuming password is hashed before saving
+            hash 
         });
         return admin;
     }
