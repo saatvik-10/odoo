@@ -14,7 +14,7 @@ import { ChevronLeft, ChevronRight, Printer, Check, X, Truck, Calendar, MapPin, 
 import { cn } from "@/lib/utils"
 import { OrderStatus, RentalOrder, sampleOrders, statusConfig } from "@/constant/orderDetail"
 
-export default function RentalOrderPage() {
+export default function RentalOrderPage({ params }: { params: { id: string } }) {
   const [currentOrderIndex, setCurrentOrderIndex] = useState(0)
   const [orders, setOrders] = useState<RentalOrder[]>(sampleOrders)
   const [showDeliveryModal, setShowDeliveryModal] = useState(false)
@@ -24,6 +24,8 @@ export default function RentalOrderPage() {
 
   const currentOrder = orders[currentOrderIndex]
   const totalOrders = orders.length
+
+  const id = params.id;
 
   useEffect(() => {
     setTermsConditions(currentOrder.termsConditions)
