@@ -216,14 +216,14 @@ export default function VendorDashboard() {
                         <Badge
                           className={
                             order.status === 'Delivered'
-                              ? 'bg-green-100 text-green-600'
+                              ? 'bg-orange-100 text-orange-600'
                               : order.status === 'Quotation'
-                                ? 'bg-yellow-100 text-yellow-600'
+                                ? 'bg-blue-100 text-blue-800'
                                 : order.status === 'Returned'
-                                  ? 'text-blue-600 bg-blue-100'
+                                  ? 'bg-red-100 text-red-800'
                                   : order.status == 'Picked Up'
-                                    ? 'text-orange-600 bg-orange-100'
-                                    : 'text-slate-600 bg-slate-100'
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : 'bg-green-100 text-green-800'
                           }
                         >
                           {order.status}
