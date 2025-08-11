@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    category: { type: String },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
@@ -48,7 +49,7 @@ const productSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Product = mongoose.model("Product", productSchema);
