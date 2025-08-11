@@ -23,6 +23,7 @@ export class ProductService {
   }
 
   async createProduct(vendor: string, product: CreateProduct) {
+    console.log(vendor)
     await ProductModel.create({
       ...product,
       vendor,

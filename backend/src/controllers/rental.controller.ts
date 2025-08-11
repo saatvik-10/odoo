@@ -1,28 +1,81 @@
 import { rentalSchema } from "@/models/rental.model";
+import { CouponService } from "@/services/coupon.service";
 import { ProductService } from "@/services/product.service";
 import { RentalService } from "@/services/rental.service";
-import { cancelRentalSchema, createRentalSchema } from "@/validators/rental.validator";
+import {
+  cancelRentalSchema,
+  createRentalSchema,
+  type CreateRental,
+} from "@/validators/rental.validator";
 import type { Context } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 const rentalService = new RentalService();
 const productService = new ProductService();
+const couponService = new CouponService();
 
 export class RentalController {
   async createRental(ctx: Context) {
     try {
-      const user = ctx.get("userID");
-      const body = createRentalSchema.parse(await ctx.req.json());
+      const user = ctx.get("userId");
+      let body: CreateRental = await ctx.req.json();
+      body.startDate = new Date(body.startDate);
+      body.endDate = new Date(body.endDate);
+      body = createRentalSchema.parse(body);
       const products = await productService.getProductsFromIDList(
         body.products.map((product) => product.product),
       );
-      if (products.length < 1) {
+      if (products.length < 1 || products.length != body.products.length) {
         return ctx.json(ReasonPhrases.BAD_REQUEST, StatusCodes.BAD_REQUEST);
       }
+      if (products.find((product) => product == null)) {
+        return ctx.json(ReasonPhrases.BAD_REQUEST, StatusCodes.BAD_REQUEST);
+      }
+      let amt = 0;
+      products.forEach((product) => {
+        if (!product) {
+          return;
+        }
+        let price = product.price;
+        for (let i = 0; i < product.specialPrices.length; i++) {
+          if (
+            body.startDate >= product.specialPrices[i].startDate! &&
+            body.endDate <= product.specialPrices[i].endDate!
+          ) {
+            price = product.specialPrices[i];
+            break;
+          }
+        }
+
+        switch (body.duration.durationType) {
+          case "monthly":
+            amt += price!.monthly ?? 0 * body.duration.durationValue;
+            break;
+          case "daily":
+            amt += price!.daily ?? 0 * body.duration.durationValue;
+            break;
+          case "hourly":
+            amt += price!.hourly ?? 0 * body.duration.durationValue;
+            break;
+          default:
+        }
+      });
+      let tax = amt + amt * 0.18;
 
       //TODO: Check if products are available for the same time.
       //
       //TODO: Reduce available quantity of products.
+
+      //TODO: Check if coupon code is applicable and apply it.
+      let couponDiscount = 0;
+      if (body.couponCode) {
+        const coupon = await couponService.getCouponByCode(body.couponCode);
+        if (coupon) {
+          if (coupon.mov > amt) {
+            couponDiscount = coupon.discount;
+          }
+        }
+      }
 
       //Checking if all products belong to same vendor
       const vendor = products[0].vendor;
@@ -36,10 +89,22 @@ export class RentalController {
       }
 
       // Creating rental
-      await rentalService.createRental(user, vendor.toString(), body);
+      const rentalID = Math.floor(Math.random() * 1000000); // Generate a random rental ID
+      await rentalService.createRental(
+        user,
+        vendor.toString(),
+        rentalID,
+        body,
+        {
+          amt,
+          tax,
+          couponDiscount,
+        },
+      );
 
       return ctx.json(ReasonPhrases.CREATED, StatusCodes.CREATED);
     } catch (error) {
+      console.error(error);
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -49,7 +114,7 @@ export class RentalController {
 
   async getRentalsForUser(ctx: Context) {
     try {
-      const user = ctx.get("userID")
+      const user = ctx.get("userId");
       const rentals = await rentalService.getUserRentals(user);
       return ctx.json(rentals);
     } catch (error) {
