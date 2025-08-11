@@ -1,5 +1,19 @@
 import { Package, ShoppingCart, DollarSign, Users } from 'lucide-react';
 
+type RentalStatus = 'quotation' | 'pickup' | 'returned' | 'reserved';
+
+interface RentalOrder {
+  id: string;
+  orderReference: string;
+  customer: string;
+  createdBy: string;
+  rentalStatus: RentalStatus;
+  amount: number;
+  pickupDate?: string;
+  returnDate?: string;
+}
+
+
 export const kpiData = [
   {
     title: 'Quotations',
@@ -102,4 +116,128 @@ export const topCustomers = [
   { customer: 'Customer3', ordered: 4, revenue: 3008, totalOrders: 12 },
   { customer: 'Healthcare Plus', ordered: 8, revenue: 2400, totalOrders: 20 },
   { customer: 'MedSupply Co', ordered: 6, revenue: 1800, totalOrders: 14 },
+];
+
+export const mockOrders: RentalOrder[] = [
+  {
+    id: '1',
+    orderReference: 'R0001',
+    customer: 'Customer 1',
+    createdBy: 'Adam',
+    rentalStatus: 'quotation',
+    amount: 2000,
+  },
+  {
+    id: '2',
+    orderReference: 'R0002',
+    customer: 'Customer 2',
+    createdBy: 'Adam',
+    rentalStatus: 'pickup',
+    amount: 1000,
+    pickupDate: '09/03/2025 00:30:36',
+  },
+  {
+    id: '3',
+    orderReference: 'R0003',
+    customer: 'Customer 3',
+    createdBy: 'Adam',
+    rentalStatus: 'returned',
+    amount: 2000,
+  },
+  {
+    id: '4',
+    orderReference: 'R0004',
+    customer: 'Customer 4',
+    createdBy: 'Adam',
+    rentalStatus: 'reserved',
+    amount: 2000,
+  },
+  {
+    id: '5',
+    orderReference: 'R0005',
+    customer: 'Customer 5',
+    createdBy: 'Adam',
+    rentalStatus: 'quotation',
+    amount: 2000,
+  },
+  {
+    id: '6',
+    orderReference: 'R0006',
+    customer: 'Customer 6',
+    createdBy: 'Adam',
+    rentalStatus: 'reserved',
+    amount: 2000,
+  },
+  {
+    id: '7',
+    orderReference: 'R0007',
+    customer: 'Customer 7',
+    createdBy: 'Adam',
+    rentalStatus: 'reserved',
+    amount: 1400,
+  },
+  {
+    id: '8',
+    orderReference: 'R0008',
+    customer: 'Customer 8',
+    createdBy: 'Adam',
+    rentalStatus: 'returned',
+    amount: 3000,
+  },
+  {
+    id: '9',
+    orderReference: 'R0009',
+    customer: 'Customer 9',
+    createdBy: 'Adam',
+    rentalStatus: 'quotation',
+    amount: 1500,
+  },
+  {
+    id: '10',
+    orderReference: 'R0010',
+    customer: 'Customer 10',
+    createdBy: 'Adam',
+    rentalStatus: 'pickup',
+    amount: 2500,
+  },
+  {
+    id: '11',
+    orderReference: 'R0011',
+    customer: 'Customer 11',
+    createdBy: 'Adam',
+    rentalStatus: 'reserved',
+    amount: 1800,
+  },
+  {
+    id: '12',
+    orderReference: 'R0012',
+    customer: 'Customer 12',
+    createdBy: 'Adam',
+    rentalStatus: 'quotation',
+    amount: 3200,
+  },
+  {
+    id: '13',
+    orderReference: 'R0013',
+    customer: 'Customer 13',
+    createdBy: 'Adam',
+    rentalStatus: 'returned',
+    amount: 2200,
+  },
+  {
+    id: '14',
+    orderReference: 'R0014',
+    customer: 'Customer 14',
+    createdBy: 'Adam',
+    rentalStatus: 'pickup',
+    amount: 1900,
+  },
+  {
+    id: '15',
+    orderReference: 'R0015',
+    customer: 'Customer 15',
+    createdBy: 'Adam',
+    rentalStatus: 'reserved',
+    amount: 2800,
+  },
 ];

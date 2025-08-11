@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -38,15 +38,22 @@ export function VendorNavbar() {
               <div className='space-y-4'>
                 <h2 className='text-lg font-semibold'>Navigation</h2>
                 <nav className='flex flex-col space-y-1'>
-                  {navItems.map(item => {
-                    const active = pathname === item.href || (item.href !== '/vendor-dashboard' && pathname.startsWith(item.href));
+                  {navItems.map((item) => {
+                    const active =
+                      pathname === item.href ||
+                      (item.href !== '/vendor-dashboard' &&
+                        pathname.startsWith(item.href));
                     return (
                       <Button
                         key={item.href}
                         asChild
                         variant={active ? 'default' : 'ghost'}
                         size='sm'
-                        className={cn('justify-start', active && 'bg-gray-900 text-white hover:bg-gray-900/90')}
+                        className={cn(
+                          'justify-start',
+                          active &&
+                            'bg-gray-900 text-white hover:bg-gray-900/90'
+                        )}
                         onClick={() => setOpen(false)}
                       >
                         <Link href={item.href}>{item.label}</Link>
@@ -58,15 +65,20 @@ export function VendorNavbar() {
             </SheetContent>
           </Sheet>
           <nav className='hidden lg:flex items-center gap-1 overflow-x-auto text-sm'>
-            {navItems.map(item => {
-              const active = pathname === item.href || (item.href !== '/vendor-dashboard' && pathname.startsWith(item.href));
+            {navItems.map((item) => {
+              const active =
+                pathname === item.href ||
+                (item.href !== '/vendor-dashboard' &&
+                  pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
                     'px-3 py-1.5 rounded-md font-medium transition-colors',
-                    active ? 'bg-gray-900 text-white' : 'text-muted-foreground hover:text-foreground hover:bg-gray-100'
+                    active
+                      ? 'bg-gray-900 text-white'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-gray-100'
                   )}
                 >
                   {item.label}
@@ -82,7 +94,9 @@ export function VendorNavbar() {
             </AvatarFallback>
           </Avatar>
           <span className='hidden sm:inline text-sm font-medium'>Vendor</span>
-          <Button variant='outline' size='sm' className='text-xs'>Logout</Button>
+          <Button variant='outline' size='sm' className='text-xs'>
+            Logout
+          </Button>
         </div>
       </div>
     </nav>
