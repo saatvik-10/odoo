@@ -52,6 +52,7 @@ export const rentalSchema = z.object({
   couponCode: z.string().nullish(),
   couponDiscount: z.number().min(1),
   totalAmt: z.number().min(1),
+  paymentStatus: z.enum(["pending", "confirmed"]),
 });
 
 export type Rental = z.infer<typeof rentalSchema>;
@@ -64,6 +65,7 @@ export const createRentalSchema = rentalSchema.omit({
   tax: true,
   totalAmt: true,
   rentalID: true,
+  paymentStatus: true,
 });
 
 export type CreateRental = z.infer<typeof createRentalSchema>;

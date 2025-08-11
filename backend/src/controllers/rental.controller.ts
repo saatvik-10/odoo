@@ -2,6 +2,7 @@ import { rentalSchema } from "@/models/rental.model";
 import { CouponService } from "@/services/coupon.service";
 import { ProductService } from "@/services/product.service";
 import { RentalService } from "@/services/rental.service";
+import { TransactionService } from "@/services/transaction.service";
 import {
   cancelRentalSchema,
   createRentalSchema,
@@ -13,6 +14,7 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 const rentalService = new RentalService();
 const productService = new ProductService();
 const couponService = new CouponService();
+const transactionService = new TransactionService();
 
 export class RentalController {
   async createRental(ctx: Context) {
@@ -102,7 +104,17 @@ export class RentalController {
         },
       );
 
-      return ctx.json(ReasonPhrases.CREATED, StatusCodes.CREATED);
+      const orderID = await transactionService.createTransaction(
+        rentalID,
+        amt + tax - couponDiscount,
+      );
+
+      return ctx.json(
+        {
+          order_id: orderID,
+        },
+        StatusCodes.CREATED,
+      );
     } catch (error) {
       console.error(error);
       return ctx.json(

@@ -139,6 +139,11 @@ export const rentalSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "confirmed"],
+      default: "pending",
+    },
   },
   {
     timestamps: true,

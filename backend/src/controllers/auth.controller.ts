@@ -117,7 +117,7 @@ export class AuthController {
         {
           token,
           vendor: {
-            ...vendor.toObject(),
+            ...vendor,
             _id: vendor._id.toString(),
           }
         },
