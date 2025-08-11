@@ -1,5 +1,9 @@
 import ProductModel from "@/models/product.model";
-import type { CreateProduct, Product } from "@/validators/product.validator";
+import type {
+  CreateProduct,
+  Product,
+  UpdateProduct,
+} from "@/validators/product.validator";
 
 export class ProductService {
   async getProducts() {
@@ -21,7 +25,7 @@ export class ProductService {
     });
   }
 
-  async updateProduct(id: string, product: Product) {
+  async updateProduct(id: string, product: UpdateProduct) {
     await ProductModel.findByIdAndUpdate(id, {
       $set: product,
     });
