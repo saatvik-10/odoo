@@ -21,6 +21,8 @@ export class RentalController {
       }
 
       //TODO: Check if products are available for the same time.
+      //
+      //TODO: Reduce available quantity of products.
 
       //Checking if all products belong to same vendor
       const vendor = products[0].vendor;
