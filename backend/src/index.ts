@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { StatusCodes } from "http-status-codes";
 import exampleRoutes from "@/routes/example.routes";
+import couponRoutes from "@/routes/coupon.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
 
@@ -25,6 +26,7 @@ app.get("/health", (c) => {
 // API Routes
 const apiRoutes = new Hono();
 apiRoutes.route("/example", exampleRoutes);
+apiRoutes.route("/coupon", couponRoutes)
 
 // Mount API routes
 app.route("/api", apiRoutes);

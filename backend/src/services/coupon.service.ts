@@ -6,11 +6,15 @@ export class CouponService {
     await Coupon.create(data);
   }
 
+  async getAllCoupons() {
+    return Coupon.find({});
+  }
+
   async getCouponByCode(code: string) {
-    return await Coupon.findOne({ code });
+    return Coupon.findOne({ code });
   }
 
   async getCouponByID(id: string) {
-    return await Coupon.findById(id);
+    return Coupon.findById(id);
   }
 }
