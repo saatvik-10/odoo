@@ -2,7 +2,7 @@ import { generateJWT, getPasswordKeys, validatePassword } from "@/lib/auth.lib";
 import { AdminService } from "@/services/admin.service";
 import { UserService } from "@/services/user.service";
 import { VendorService } from "@/services/vendor.services";
-import { adminSchema, registerAdminSchema } from "@/validators/admin.validator";
+import { adminSchema, loginAdminSchema, registerAdminSchema } from "@/validators/admin.validator";
 import {
   loginUserSchema,
   registerUserSchema,
@@ -13,6 +13,7 @@ import {
   registerVendorSchema,
   vendorSchema,
 } from "@/validators/vendor.validator";
+import { password } from "bun";
 import type { Context } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
@@ -94,13 +95,13 @@ export class AuthController {
   async vendorLogin(ctx: Context) {
     try {
       const body = loginVendorSchema.parse(await ctx.req.json());
-      const vendor = await userServices.getUserByEmail(body.email);
+      const vendor = await vendorService.getVendorByEmail(body.email);
       if (!vendor) {
         return ctx.json({ error: "Vendor not found" }, StatusCodes.NOT_FOUND);
       }
       const isPasswordValid = await validatePassword(
         body.password,
-        vendor.hash
+        vendor.hash ?? ""
       );
       if (!isPasswordValid) {
         return ctx.json(
@@ -115,14 +116,15 @@ export class AuthController {
       return ctx.json(
         {
           token,
-          vendor: vendorSchema.parse({
+          vendor: {
             ...vendor.toObject(),
             _id: vendor._id.toString(),
-          }),
+          }
         },
         StatusCodes.OK
       );
     } catch (error) {
+        console.error(error);
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }
@@ -156,6 +158,7 @@ export class AuthController {
         vendor: createdVendor,
       });
     } catch (error) {
+        console.error(error);
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }
@@ -170,7 +173,7 @@ export class AuthController {
 
   async adminLogin(ctx: Context) {
     try {
-      const body = adminSchema.parse(await ctx.req.json());
+      const body = loginAdminSchema.parse(await ctx.req.json());
       const admin = await adminService.getAdminByEmail(body.email);
       if (!admin) {
         return ctx.json({ error: "Admin not found" }, StatusCodes.NOT_FOUND);
@@ -197,6 +200,7 @@ export class AuthController {
         StatusCodes.OK
       );
     } catch (error) {
+        console.error(error);
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }
@@ -219,10 +223,7 @@ export class AuthController {
         );
       }
       const { hash } = await getPasswordKeys(body.password);
-      const createdAdmin = await adminService.createAdmin({
-        email: body.email,
-        password: hash,
-      });
+      const createdAdmin = await adminService.createAdmin(body, hash);
       const token = await generateJWT({
         _id: createdAdmin._id.toString(),
         role: "admin",
@@ -235,6 +236,7 @@ export class AuthController {
         StatusCodes.CREATED
       );
     } catch (error) {
+        console.error(error)
       if (error instanceof ZodError) {
         return ctx.json(error.issues, StatusCodes.BAD_REQUEST);
       }

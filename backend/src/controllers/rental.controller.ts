@@ -1,7 +1,7 @@
 import { rentalSchema } from "@/models/rental.model";
 import { ProductService } from "@/services/product.service";
 import { RentalService } from "@/services/rental.service";
-import { createRentalSchema } from "@/validators/rental.validator";
+import { cancelRentalSchema, createRentalSchema } from "@/validators/rental.validator";
 import type { Context } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
@@ -103,7 +103,8 @@ export class RentalController {
   async cancelRental(ctx: Context) {
     try {
       const id = ctx.req.param("id");
-      await rentalService.updateRentalStatus(id, "Cancelled");
+      const body = cancelRentalSchema.parse(await ctx.req.json());
+      await rentalService.cancelRental(id, body.reason);
       return ctx.json(ReasonPhrases.OK, StatusCodes.OK);
     } catch (error) {
       return ctx.json(

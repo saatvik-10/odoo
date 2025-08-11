@@ -25,4 +25,8 @@ export class RentalService {
   async updateRentalStatus(rentalID: string, status: RentalStatus) {
     return Rental.findByIdAndUpdate(rentalID, { status });
   }
+
+  async cancelRental(rentalID: string, reason: string) {
+    return Rental.findByIdAndUpdate(rentalID, { status: "Cancelled", reasonForCancellation: reason });
+  }
 }

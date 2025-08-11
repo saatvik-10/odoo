@@ -103,6 +103,10 @@ export const rentalSchema = new mongoose.Schema(
         "Cancelled",
       ],
     },
+    reasonForCancellation: {
+      type: String,
+      default: null,
+    },
     products: [
       {
         product: {
