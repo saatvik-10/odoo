@@ -5,5 +5,7 @@ import { Hono } from "hono";
 const userController = new UserController();
 const app = new Hono();
 
-app.get("/me", authenticate, userController.getMe);
+app.get("/", authenticate, userController.getMe);
 app.get("/:id", authenticate, userController.getUserById);
+
+export default app
