@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -33,27 +33,24 @@ import {
 import { cn } from '@/lib/utils';
 import { sampleOrders, statusConfig } from '@/constant/orderDetail';
 import { OrderStatus, RentalOrder } from '@/types/rentalOrder';
+import api from '@/lib/api';
 
 export default function RentalOrderPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const [currentOrderIndex, setCurrentOrderIndex] = useState(0);
-  const [orders, setOrders] = useState<RentalOrder[]>(sampleOrders);
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [showRejectionModal, setShowRejectionModal] = useState(false);
   const [termsConditions, setTermsConditions] = useState('');
   const [internalNotes, setInternalNotes] = useState('');
+  const [orders, setOrders] = useState<RentalOrder[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const currentOrder = orders[currentOrderIndex];
   const totalOrders = orders.length;
-
-  const id = params.id;
-
-  useEffect(() => {
-    setTermsConditions(currentOrder.termsConditions);
-  }, [currentOrder]);
 
   const handleStatusChange = (newStatus: OrderStatus) => {
     setOrders((prev) =>
@@ -62,6 +59,35 @@ export default function RentalOrderPage({
       )
     );
   };
+
+  useEffect(() => {
+    async function fetchOrder() {
+      try {
+        setLoading(true);
+
+        // Fetch order(s) — assuming API can return either a single object or an array
+        const orderData = await api.rental.getRentalByID(id);
+        console.log(orderData)
+
+        let fetchedOrders = Array.isArray(orderData) ? orderData : [orderData];
+        setOrders(fetchedOrders);
+
+        // Find index of current order by matching `id`
+        const index = fetchedOrders.findIndex(
+          (order) => String(order.id) === String(id)
+        );
+        setCurrentOrderIndex(index !== -1 ? index : 0); // fallback to first if not found
+      } catch (error) {
+        console.error('Failed to fetch rental order:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (id) {
+      fetchOrder();
+    }
+  }, [id]);
 
   const handleAccept = () => {
     handleStatusChange('reserved');

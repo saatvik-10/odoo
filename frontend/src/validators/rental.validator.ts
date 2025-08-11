@@ -1,4 +1,5 @@
 import z from "zod";
+import { userSchema } from "./user.validator";
 
 export const rentalStatusSchema = z.enum([
   "Quotation",
@@ -15,13 +16,13 @@ export type RentalStatus = z.infer<typeof rentalStatusSchema>;
 export const rentalSchema = z.object({
   id: z.any(),
   rentalID: z.number().min(1),
-  product: z.any(),
-  vendor: z.any(),
-  user: z.any(),
+  product: z.string(),
+  vendor: z.string(),
+  user: userSchema,
   startDate: z.date(),
   endDate: z.date(),
   duration: z.object({
-    durationType: z.enum(["Months", "Days", "Hours"]),
+    durationType: z.enum(["monthly", "daily", "hourly"]),
     durationValue: z.number().min(1),
   }),
   invoiceAddress: z.object({

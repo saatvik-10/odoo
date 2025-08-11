@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,19 +13,35 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Settings, Plus } from 'lucide-react';
-import { mockProducts } from '@/constant/products';
-import { Product, RentalPricing, ReservationCharges } from '@/types/product';
+import { RentalPricing, ReservationCharges } from '@/types/product';
+import api from '@/lib/api';
+import { Product } from '@/validators/product.validator';
 
 export default function AdminProductPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const [editedProduct, setEditedProduct] = useState<Product | null>(null);
 
+  useEffect(() => {
+    // Fetch products from API or other source
+    const fetchProducts = async () => {
+      try {
+        const response = await api.product.getProductsByVendorId(
+          '689a35dfb166403780afa5a5'
+        );
+        setProducts(response);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleProductSelect = (productId: string) => {
     setSelectedProductId(productId);
-    const product = mockProducts.find(
-      (p) => p.id === Number.parseInt(productId)
-    );
+    const product = products.find((p) => p.id === Number.parseInt(productId));
     if (product) {
       setCurrentProduct(product);
       setEditedProduct({ ...product });
@@ -46,20 +62,19 @@ export default function AdminProductPage() {
   };
 
   const handlePricingChange = (
-    index: number,
-    field: keyof RentalPricing,
-    value: string | number
+    field: keyof Product['price'],
+    value: number
   ) => {
     if (!editedProduct) return;
 
-    setEditedProduct((prev: Product | null) =>
+    setEditedProduct((prev) =>
       prev
         ? {
             ...prev,
-            rentalPricing: prev.rentalPricing.map(
-              (item: RentalPricing, i: number) =>
-                i === index ? { ...item, [field]: value } : item
-            ),
+            price: {
+              ...prev.price,
+              [field]: value,
+            },
           }
         : null
     );
@@ -75,8 +90,8 @@ export default function AdminProductPage() {
       prev
         ? {
             ...prev,
-            reservationCharges: {
-              ...prev.reservationCharges,
+            extraPricing: {
+              ...prev.extraPricing,
               [field]: value,
             },
           }
@@ -91,11 +106,9 @@ export default function AdminProductPage() {
     console.log('Updating product:', editedProduct);
 
     // Update the mock data (in real app, this would be handled by your API)
-    const productIndex = mockProducts.findIndex(
-      (p) => p.id === editedProduct.id
-    );
+    const productIndex = products.findIndex((p) => p.id === editedProduct.id);
     if (productIndex !== -1) {
-      mockProducts[productIndex] = { ...editedProduct };
+      products[productIndex] = { ...editedProduct };
     }
 
     setCurrentProduct({ ...editedProduct });
@@ -133,8 +146,8 @@ export default function AdminProductPage() {
             </div>
             <div className='text-sm text-gray-500'>
               {selectedProductId
-                ? `Product ${selectedProductId} of ${mockProducts.length}`
-                : `0 of ${mockProducts.length}`}
+                ? `Product ${selectedProductId} of ${products.length}`
+                : `0 of ${products.length}`}
             </div>
           </div>
 
@@ -166,7 +179,7 @@ export default function AdminProductPage() {
                     <SelectValue placeholder='Select a product' />
                   </SelectTrigger>
                   <SelectContent>
-                    {mockProducts.map((product) => (
+                    {products.map((product) => (
                       <SelectItem
                         key={product.id}
                         value={product.id.toString()}
@@ -241,37 +254,23 @@ export default function AdminProductPage() {
                       <Label className='font-medium'>Price</Label>
                     </div>
 
-                    {editedProduct.rentalPricing.map((pricing, index) => (
-                      <div key={index} className='grid grid-cols-3 gap-4 mb-3'>
-                        <Input
-                          value={pricing.period}
-                          onChange={(e) =>
-                            handlePricingChange(index, 'period', e.target.value)
-                          }
-                        />
-                        <Input
-                          value={pricing.pricelist}
-                          onChange={(e) =>
-                            handlePricingChange(
-                              index,
-                              'pricelist',
-                              e.target.value
-                            )
-                          }
-                        />
-                        <Input
-                          type='number'
-                          value={pricing.price}
-                          onChange={(e) =>
-                            handlePricingChange(
-                              index,
-                              'price',
-                              Number.parseInt(e.target.value)
-                            )
-                          }
-                        />
-                      </div>
-                    ))}
+                    {(['hourly', 'daily', 'monthly', 'yearly'] as const).map(
+                      (key) => (
+                        <div key={key} className='grid grid-cols-2 gap-4 mb-3'>
+                          <Label className='capitalize'>{key}</Label>
+                          <Input
+                            type='number'
+                            value={editedProduct.price[key]}
+                            onChange={(e) =>
+                              handlePricingChange(
+                                key,
+                                Number.parseInt(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      )
+                    )}
                   </div>
 
                   {/* Rental Reservation Charges */}
@@ -286,7 +285,7 @@ export default function AdminProductPage() {
                         <div className='flex items-center gap-2'>
                           <Input
                             type='number'
-                            value={editedProduct.reservationCharges.extraHour}
+                            value={editedProduct.extraPricing.hourly}
                             onChange={(e) =>
                               handleReservationChargeChange(
                                 'extraHour',
@@ -304,7 +303,7 @@ export default function AdminProductPage() {
                         <div className='flex items-center gap-2'>
                           <Input
                             type='number'
-                            value={editedProduct.reservationCharges.extraDays}
+                            value={editedProduct.extraPricing.daily}
                             onChange={(e) =>
                               handleReservationChargeChange(
                                 'extraDays',
@@ -318,11 +317,11 @@ export default function AdminProductPage() {
                       </div>
 
                       <div className='flex items-center justify-between'>
-                        <Label>Extra Week :</Label>
+                        <Label>Extra Year :</Label>
                         <div className='flex items-center gap-2'>
                           <Input
                             type='number'
-                            value={editedProduct.reservationCharges.extraWeek}
+                            value={editedProduct.extraPricing.yearly}
                             onChange={(e) =>
                               handleReservationChargeChange(
                                 'extraWeek',
@@ -335,12 +334,12 @@ export default function AdminProductPage() {
                         </div>
                       </div>
 
-                      <div className='flex items-center justify-between'>
+                      {/* <div className='flex items-center justify-between'>
                         <Label>Late Return :</Label>
                         <div className='flex items-center gap-2'>
                           <Input
                             type='number'
-                            value={editedProduct.reservationCharges.lateReturn}
+                            value={editedProduct.extraPricing.lateReturn}
                             onChange={(e) =>
                               handleReservationChargeChange(
                                 'lateReturn',
@@ -351,7 +350,7 @@ export default function AdminProductPage() {
                           />
                           <span>Rs</span>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
