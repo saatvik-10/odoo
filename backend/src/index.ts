@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { StatusCodes } from "http-status-codes";
 import exampleRoutes from "@/routes/example.routes";
+import couponRoutes from "@/routes/coupon.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
 
@@ -12,20 +13,20 @@ await connectDB(process.env.MONGO_URI as string);
 const app = new Hono();
 
 //logger
-app.use(logger())
+app.use(logger());
 
 // CORS Middleware
 app.use(cors());
 
-
 // Health check endpoint
 app.get("/health", (c) => {
-  return c.json({ status: "ok", service: "ai-core-bun" });
+  return c.json({ status: "ok", service: "Rentals-Backend" });
 });
 
 // API Routes
 const apiRoutes = new Hono();
 apiRoutes.route("/example", exampleRoutes);
+apiRoutes.route("/coupon", couponRoutes)
 
 // Mount API routes
 app.route("/api", apiRoutes);
@@ -38,7 +39,10 @@ app.notFound((c) => {
 // Error Handler
 app.onError((err, c) => {
   console.error("Error:", err);
-  return c.json({ error: "Internal Server Error" }, StatusCodes.INTERNAL_SERVER_ERROR);
+  return c.json(
+    { error: "Internal Server Error" },
+    StatusCodes.INTERNAL_SERVER_ERROR,
+  );
 });
 
 // Export the app
