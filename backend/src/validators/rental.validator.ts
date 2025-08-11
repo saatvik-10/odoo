@@ -42,6 +42,11 @@ export const rentalSchema = z.object({
       price: z.number().min(1),
     }),
   ),
+  amount: z.number().min(1),
+  tax: z.number().min(1),
+  couponCode: z.string().nullish(),
+  couponDiscount: z.number().min(1),
+  totalAmt: z.number().min(1),
 });
 
 export type Rental = z.infer<typeof rentalSchema>;
@@ -50,6 +55,9 @@ export const createRentalSchema = rentalSchema.omit({
   id: true,
   user: true,
   vendor: true,
+  amount: true,
+  tax: true,
+  totalAmt: true,
 });
 
 export type CreateRental = z.infer<typeof createRentalSchema>;

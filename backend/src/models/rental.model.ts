@@ -120,6 +120,26 @@ export const rentalSchema = new mongoose.Schema(
         },
       },
     ],
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    tax: {
+      type: Number,
+      default: 0,
+    },
+    couponCode: {
+      type: String,
+      default: null,
+    },
+    couponDiscount: {
+      type: Number,
+      default: 0,
+    },
+    totalAmt: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
