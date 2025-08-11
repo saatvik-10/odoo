@@ -43,3 +43,13 @@ export const rentalSchema = z.object({
     }),
   ),
 });
+
+export type Rental = z.infer<typeof rentalSchema>;
+
+export const createRentalSchema = rentalSchema.omit({
+  id: true,
+  user: true,
+  vendor: true,
+});
+
+export type CreateRental = z.infer<typeof createRentalSchema>;
