@@ -1,5 +1,5 @@
 import Rental from "@/models/rental.model";
-import type { CreateRental } from "@/validators/rental.validator";
+import type { CreateRental, RentalStatus } from "@/validators/rental.validator";
 
 export class RentalService {
   async createRental(userID: string, vendorID: string, data: CreateRental) {
@@ -22,15 +22,7 @@ export class RentalService {
     return Rental.findById(rentalID);
   }
 
-  async cancelRental(rentalID: string) {
-    return Rental.findByIdAndUpdate(rentalID, { status: "Cancelled" });
-  }
-
-  async approveRental(rentalID: string) {
-    return Rental.findByIdAndUpdate(rentalID, { status: "Reserved" });
-  }
-
-  async updateRentalStatus(rentalID: string, status: string) {
+  async updateRentalStatus(rentalID: string, status: RentalStatus) {
     return Rental.findByIdAndUpdate(rentalID, { status });
   }
 }
