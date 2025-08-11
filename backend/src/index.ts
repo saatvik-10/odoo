@@ -7,6 +7,7 @@ import authRoutes from "@/routes/auth.routes";
 import vendorRoutes from "@/routes/vendor.routes";
 import userRoutes from "@/routes/user.routes";
 import transferRoutes from "@/routes/transfer.routes";
+import productRoutes from "@/routes/product.routes"
 import adminRoutes from "@/routes/admin.routes";
 import { logger } from "hono/logger";
 import { connectDB } from "./utils/db";
@@ -37,6 +38,7 @@ apiRoutes.route("/coupon", couponRoutes);
 apiRoutes.route("/auth", authRoutes);
 apiRoutes.route("/transfer", transferRoutes)
 apiRoutes.route("/vendor",vendorRoutes);
+apiroutes.route("/product", productRoutes)
 apiRoutes.route("/admin",adminRoutes)
 
 // Mount API routes
