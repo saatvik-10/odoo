@@ -18,7 +18,7 @@ export const validatePassword = async (password: string, hash: string) => {
 //generates JWT for users
 export const generateJWT = async (data: IJWTData): Promise<string> => {
   //5 Days
-  const expiry = Math.floor(Date.now() / 1000) + 60 * 5 * 24 * 60;
+  const expiry = Math.floor(Date.now() / 1000) + 60 * 10 * 24 * 60;
   return await jwt.sign({ ...data, exp: expiry }, process.env.JWT_SECRET!);
 };
 
