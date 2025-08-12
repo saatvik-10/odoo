@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema(
       hourly: Number,
       daily: Number,
       monthly: Number,
-      yearly: Number,
+      // yearly: Number,
     },
     images: [String],
     stock: {

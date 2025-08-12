@@ -24,7 +24,7 @@ export const productSchema = z.object({
     hourly: z.number().min(1),
     daily: z.number().min(1),
     monthly: z.number().min(1),
-    yearly: z.number().min(1),
+    // yearly: z.number().min(1),
   }),
   images: z.array(z.string().min(1)),
   stock: z.number().min(0),

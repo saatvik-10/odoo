@@ -14,6 +14,7 @@ export class MediaController {
           StatusCodes.BAD_REQUEST
         );
       }
+      console.log(files)
       return ctx.json(files, StatusCodes.CREATED);
     } catch (error) {
       return ctx.json(
