@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const addressValidator = z.object({
-  id: z.any(),
+  _id: z.any(),
   name: z.string(),
   addressLine1: z.string().min(3, "Address line 1 is required"),
   addressLine2: z.string().optional(),
@@ -17,13 +17,13 @@ export const addressValidator = z.object({
 export type Address = z.infer<typeof addressValidator>;
 
 export const createAddressValidator = addressValidator.omit({
-  id: true,
+  _id: true,
 });
 
 export type CreateAddress = z.infer<typeof createAddressValidator>;
 
 export const updateAddressValidator = addressValidator.omit({
-  id: true,
+  _id: true,
 });
 
 export type UpdateAddress = z.infer<typeof updateAddressValidator>;
