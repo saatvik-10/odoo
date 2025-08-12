@@ -8,6 +8,7 @@ import vendorRoutes from "@/routes/vendor.routes";
 import userRoutes from "@/routes/user.routes";
 import transferRoutes from "@/routes/transfer.routes";
 import productRoutes from "@/routes/product.routes";
+import mediaRoutes from "@/routes/media.routes";
 import adminRoutes from "@/routes/admin.routes";
 import rentalRoutes from "@/routes/rental.routes";
 import { logger } from "hono/logger";
@@ -41,6 +42,7 @@ apiRoutes.route("/vendor", vendorRoutes);
 apiRoutes.route("/product", productRoutes);
 apiRoutes.route("/rental", rentalRoutes);
 apiRoutes.route("/admin", adminRoutes);
+apiRoutes.route("/media", mediaRoutes)
 
 // Mount API routes
 app.route("/api", apiRoutes);
