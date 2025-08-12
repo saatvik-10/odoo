@@ -34,16 +34,24 @@ export default function AdminProductPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        if (role !== 'vendor') return;
+        console.log('fetchProducts called - role:', role, 'user:', user);
+        if (role !== 'vendor') {
+          console.log('Not a vendor, returning early');
+          return;
+        }
         const vendorUser = user as any;
         const vendorId = vendorUser?.id || vendorUser?._id; // fallback to _id if id missing
+        console.log('Vendor user object:', vendorUser);
+        console.log('Extracted vendor ID:', vendorId);
         if (!vendorId) {
           console.warn('Vendor user object missing id/_id', vendorUser);
           return;
         }
         console.log('Fetching products for vendor:', vendorId, 'role:', role);
         const response = await api.product.getProductsByVendorId(vendorId);
-        setProducts(response);
+        console.log('Products fetched successfully:', response);
+        console.log('Number of products:', response?.length);
+        setProducts(response || []);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -217,16 +225,26 @@ export default function AdminProductPage() {
                     <SelectValue placeholder='Select a product' />
                   </SelectTrigger>
                   <SelectContent>
-                    {products
-                      .filter((product) => product._id !== null && product._id !== undefined && product._id !== '')
-                      .map((product) => (
-                        <SelectItem
-                          key={String(product._id)}
-                          value={String(product._id)}
-                        >
-                          {product.name || `Product ${product._id}`}
-                        </SelectItem>
-                      ))}
+                    {(() => {
+                      console.log('Rendering products in select:', products);
+                      return products
+                        .filter((product) => {
+                          const hasValidId = product._id !== null && product._id !== undefined && product._id !== '';
+                          console.log('Product filter check:', product.name, 'ID:', product._id, 'Valid:', hasValidId);
+                          return hasValidId;
+                        })
+                        .map((product) => {
+                          console.log('Rendering product option:', product.name, 'ID:', product._id);
+                          return (
+                            <SelectItem
+                              key={String(product._id)}
+                              value={String(product._id)}
+                            >
+                              {product.name || `Product ${product._id}`}
+                            </SelectItem>
+                          );
+                        });
+                    })()}
                   </SelectContent>
                 </Select>
               </div>

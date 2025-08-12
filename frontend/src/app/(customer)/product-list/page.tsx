@@ -46,7 +46,7 @@ export default function HomePage() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await api.product.getProducts();   
+        const result = await api.product.getProduct();   
         console.log(result)     
         setProductsData(result);
       } catch (error) {
