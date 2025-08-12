@@ -7,8 +7,7 @@ export function CustomerNavbar() {
         <Link href='/' className='font-semibold'>
           Rentals
         </Link>
-        <Link href='/catalog'>Catalog</Link>
-        <Link href='/pricing'>Pricing</Link>
+        <Link href='/cart'>Cart</Link>
         <Link href='/my/rentals'>My Rentals</Link>
         <Link href='/support'>Support</Link>
         <div className='ml-auto flex items-center gap-4'>
