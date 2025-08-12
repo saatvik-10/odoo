@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const vendorSchema = z.object({
+    _id : z.any(),
     name : z.string().min(3, "Name must be at least 3 characters long").max(20),
     email : z.email(),
     mobileNumber : z.number().int().min(1000000000, "Mobile number must be at least 10 digits").max(9999999999, "Mobile number must be at most 15 digits"),
