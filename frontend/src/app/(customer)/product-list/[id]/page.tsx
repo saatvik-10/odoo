@@ -31,9 +31,9 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-  const [priceType, setPriceType] = useState<
-    'hourly' | 'daily' | 'monthly' | 'yearly'
-  >('daily');
+  const [priceType, setPriceType] = useState<'hourly' | 'daily' | 'monthly'>(
+    'daily'
+  );
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -86,9 +86,9 @@ export default function ProductDetailPage() {
         duration = Math.ceil(timeDiff / (1000 * 60 * 60 * 24 * 30));
         durationUnit = 'months';
         break;
-      case 'yearly':
-        duration = Math.ceil(timeDiff / (1000 * 60 * 60 * 24 * 365));
-        durationUnit = 'years';
+      default:
+        duration = 0;
+        durationUnit = '';
         break;
     }
 
@@ -228,7 +228,6 @@ export default function ProductDetailPage() {
               <SelectItem value='hourly'>Hourly Rate</SelectItem>
               <SelectItem value='daily'>Daily Rate</SelectItem>
               <SelectItem value='monthly'>Monthly Rate</SelectItem>
-              <SelectItem value='yearly'>Yearly Rate</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -248,14 +247,14 @@ export default function ProductDetailPage() {
                     alt={product.name}
                     className='w-full h-full object-cover'
                   />
-                  <button
+                  {/* <button
                     onClick={() => setIsWishlisted(!isWishlisted)}
                     className='absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow'
                   >
                     <Heart
                       className={`w-5 h-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
                     />
-                  </button>
+                  </button> */}
                 </div>
                 <Button
                   variant='outline'

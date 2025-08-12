@@ -30,14 +30,14 @@ export default function LandingPage() {
               </div>
               <span className='text-xl font-bold text-gray-900'>RentFlow</span>
             </div>
-            <nav className='hidden md:flex items-center space-x-2'>
+            {/* <nav className='hidden md:flex items-center space-x-2'>
               <Button variant='outline' size='sm'>
                 Sign In
               </Button>
               <Button size='sm' className='bg-orange-600 hover:bg-orange-700'>
                 Get Started
               </Button>
-            </nav>
+            </nav> */}
           </div>
         </div>
       </header>
@@ -55,12 +55,12 @@ export default function LandingPage() {
             for everyone.
           </p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Button
+            {/* <Button
               size='lg'
               className='text-lg px-8 py-3 border bg-orange-600 text-white cursor-pointer hover:bg-orange-700'
             >
               Browse Rentals
-            </Button>
+            </Button> */}
             <Link href='/vendor-sign-in'>
               <Button
                 variant='outline'

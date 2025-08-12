@@ -14,8 +14,8 @@ import { useRouter } from 'next/navigation';
 const navItems = [
   { label: 'Dashboard', href: '/vendor-dashboard' },
   { label: 'Rentals', href: '/vendor-rentals' },
-  // { label: 'Orders', href: '/vendor-orders' },
   { label: 'Products', href: '/vendor-products' },
+  { label: 'Orders', href: '/vendor-orders' },
   // { label: 'Pricing', href: '/vendor-pricing' },
   // { label: 'Reports', href: '/vendor-reports' },
   // { label: 'Settings', href: '/vendor-settings' },
@@ -30,7 +30,7 @@ export function VendorNavbar() {
   const handleLogout = () => {
     Cookies.remove('token');
     Cookies.remove('role');
-    route.push('/vendor-sign-in');
+    route.push('/');
   };
 
   return (

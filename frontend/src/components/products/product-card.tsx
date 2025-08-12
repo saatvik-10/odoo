@@ -33,7 +33,7 @@ export function ProductCard({ product, handleRoute }: ProductCardProps) {
             <Heart className='h-4 w-4' />
           </Button>
           {product.stock < 5 && product.stock > 0 && (
-            <Badge className='absolute top-2 left-2 bg-orange-600'>
+            <Badge className='absolute top-6 left-1 bg-orange-600'>
               Low Stock
             </Badge>
           )}
@@ -44,7 +44,7 @@ export function ProductCard({ product, handleRoute }: ProductCardProps) {
           )}
         </div>
 
-        <div className='p-4'>
+        <div className='p-2'>
           <div className='flex items-center justify-between'>
             <Badge variant='outline' className='text-xs'>
               {product.category}

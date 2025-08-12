@@ -53,7 +53,7 @@ export default function AdminProductPage() {
 
   const handleProductSelect = (productId: string) => {
     setSelectedProductId(productId);
-    const product = products.find((p) => p.id === Number.parseInt(productId));
+    const product = products.find((p) => p._id === Number.parseInt(productId));
     if (product) {
       setCurrentProduct(product);
       setEditedProduct({ ...product });
@@ -118,7 +118,7 @@ export default function AdminProductPage() {
     console.log('Updating product:', editedProduct);
 
     // Update the mock data (in real app, this would be handled by your API)
-    const productIndex = products.findIndex((p) => p.id === editedProduct.id);
+    const productIndex = products.findIndex((p) => p._id === editedProduct._id);
     if (productIndex !== -1) {
       products[productIndex] = { ...editedProduct };
     }
@@ -143,8 +143,8 @@ export default function AdminProductPage() {
   const handleProductCreated = (newProduct: Product) => {
     setProducts((prev) => [...prev, newProduct]);
     // Only set selected product if it has a valid ID
-    if (newProduct.id) {
-      setSelectedProductId(String(newProduct.id));
+    if (newProduct._id) {
+      setSelectedProductId(String(newProduct._id));
       setCurrentProduct(newProduct);
       setEditedProduct(newProduct);
     }
@@ -219,8 +219,8 @@ export default function AdminProductPage() {
                   <SelectContent>
                     {products.map((product) => (
                       <SelectItem
-                        key={product.id || `temp-${Math.random()}`}
-                        value={product.id ? product.id.toString() : ''}
+                        key={product._id || `temp-${Math.random()}`}
+                        value={product._id ? product._id.toString() : ''}
                       >
                         {product.name}
                       </SelectItem>

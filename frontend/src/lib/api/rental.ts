@@ -12,12 +12,12 @@ export class RentalAPI {
   }
 
   async createRental(data: CreateRental) {
-    const { data: res } = await this.axios.post('/', data);
+    const { data: res } = await this.axios.post('/rental', data);
     return res;
   }
 
   async getRentalsForUser() {
-    const { data: res } = await this.axios.get('/');
+    const { data: res } = await this.axios.get('/rental');
     return res;
   }
 
