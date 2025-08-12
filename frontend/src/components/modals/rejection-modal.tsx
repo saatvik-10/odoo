@@ -18,10 +18,11 @@ interface RejectionModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: (feedback: string) => void
-  orderNumber: string
+  orderNumber: string,
+  rentalId: string
 }
 
-export function RejectionModal({ isOpen, onClose, onConfirm, orderNumber }: RejectionModalProps) {
+export function RejectionModal({ isOpen, onClose, onConfirm, orderNumber, rentalId }: RejectionModalProps) {
   const [feedback, setFeedback] = useState("")
 
   const handleConfirm = () => {
