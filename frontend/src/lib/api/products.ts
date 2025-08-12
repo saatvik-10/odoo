@@ -12,7 +12,7 @@ export class ProductsAPI {
     this.axios = axios;
   }
 
-  async getProducts(): Promise<Product[]> {
+  async getProduct(): Promise<Product[]> {
     const { data: res } = await this.axios.get('/products');
     return res;
   }
@@ -38,6 +38,15 @@ export class ProductsAPI {
   ): Promise<Product> {
     const { data: res } = await this.axios.put(`/product/${productId}`, data);
     return res;
+  }
+
+  async uploadMedia(files: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('files', files);
+
+    const { data } = await this.axios.post('/media/upload', formData);
+
+    return data[0];
   }
 
   async updateProductPublic(

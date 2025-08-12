@@ -12,32 +12,44 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Plus } from 'lucide-react';
-import { RentalPricing, ReservationCharges } from '@/types/product';
+import { Plus } from 'lucide-react';
+import { ReservationCharges } from '@/types/product';
 import api from '@/lib/api';
 import { Product } from '@/validators/product.validator';
+import { useAuth } from '@/components/context/context';
+import { CreateProductModal } from '@/components/modals/create-product-modal';
+import Cookies from 'js-cookie';
 
 export default function AdminProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const [editedProduct, setEditedProduct] = useState<Product | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
+
+  const { user } = useAuth();
+
+  const role = Cookies.get('role');
 
   useEffect(() => {
-    // Fetch products from API or other source
     const fetchProducts = async () => {
       try {
-        const response = await api.product.getProductsByVendorId(
-          '689a35dfb166403780afa5a5'
-        );
+        if (role !== 'vendor') return;
+        const vendorUser = user as any;
+        const vendorId = vendorUser?.id || vendorUser?._id; // fallback to _id if id missing
+        if (!vendorId) {
+          console.warn('Vendor user object missing id/_id', vendorUser);
+          return;
+        }
+        console.log('Fetching products for vendor:', vendorId, 'role:', role);
+        const response = await api.product.getProductsByVendorId(vendorId);
         setProducts(response);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
-
     fetchProducts();
-  }, []);
+  }, [user, role]);
 
   const handleProductSelect = (productId: string) => {
     setSelectedProductId(productId);
@@ -128,16 +140,42 @@ export default function AdminProductPage() {
     );
   };
 
+  const handleProductCreated = (newProduct: Product) => {
+    setProducts((prev) => [...prev, newProduct]);
+    // Only set selected product if it has a valid ID
+    if (newProduct.id) {
+      setSelectedProductId(String(newProduct.id));
+      setCurrentProduct(newProduct);
+      setEditedProduct(newProduct);
+    }
+  };
+
   return (
     <div className='min-h-screen bg-gray-50 p-6'>
+      <CreateProductModal
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onCreated={handleProductCreated}
+      />
+
       <div className='max-w-7xl mx-auto'>
         <div className='bg-white shadow-md transition-shadow p-6 mb-6 rounded-lg'>
           {/* Header */}
           <div className='flex items-center justify-between mb-6'>
             <div className='flex items-center gap-4'>
-              <Button className='bg-purple-200 text-purple-800 hover:bg-purple-300'>
+              <Button
+                className='bg-purple-200 text-purple-800 hover:bg-purple-300'
+                type='button'
+                onClick={() => setCreateOpen(true)}
+                disabled={Cookies.get('role') !== 'vendor'}
+                title={
+                  Cookies.get('role') !== 'vendor'
+                    ? 'Only vendors can create products'
+                    : ''
+                }
+              >
                 Create
-                <Plus className='w-4 h-4' />
+                <Plus className='w-4 h-4 ml-1' />
               </Button>
               {/* <div className='flex items-center gap-2'>
               <span className='text-lg font-medium'>Product</span>
@@ -181,8 +219,8 @@ export default function AdminProductPage() {
                   <SelectContent>
                     {products.map((product) => (
                       <SelectItem
-                        key={product.id}
-                        value={product.id.toString()}
+                        key={product.id || `temp-${Math.random()}`}
+                        value={product.id ? product.id.toString() : ''}
                       >
                         {product.name}
                       </SelectItem>
@@ -254,23 +292,21 @@ export default function AdminProductPage() {
                       <Label className='font-medium'>Price</Label>
                     </div>
 
-                    {(['hourly', 'daily', 'monthly', 'yearly'] as const).map(
-                      (key) => (
-                        <div key={key} className='grid grid-cols-2 gap-4 mb-3'>
-                          <Label className='capitalize'>{key}</Label>
-                          <Input
-                            type='number'
-                            value={editedProduct.price[key]}
-                            onChange={(e) =>
-                              handlePricingChange(
-                                key,
-                                Number.parseInt(e.target.value)
-                              )
-                            }
-                          />
-                        </div>
-                      )
-                    )}
+                    {(['hourly', 'daily', 'monthly'] as const).map((key) => (
+                      <div key={key} className='grid grid-cols-2 gap-4 mb-3'>
+                        <Label className='capitalize'>{key}</Label>
+                        <Input
+                          type='number'
+                          value={editedProduct.price[key]}
+                          onChange={(e) =>
+                            handlePricingChange(
+                              key,
+                              Number.parseInt(e.target.value)
+                            )
+                          }
+                        />
+                      </div>
+                    ))}
                   </div>
 
                   {/* Rental Reservation Charges */}
@@ -307,24 +343,6 @@ export default function AdminProductPage() {
                             onChange={(e) =>
                               handleReservationChargeChange(
                                 'extraDays',
-                                Number.parseInt(e.target.value)
-                              )
-                            }
-                            className='w-32'
-                          />
-                          <span>Rs</span>
-                        </div>
-                      </div>
-
-                      <div className='flex items-center justify-between'>
-                        <Label>Extra Year :</Label>
-                        <div className='flex items-center gap-2'>
-                          <Input
-                            type='number'
-                            value={editedProduct.extraPricing.yearly}
-                            onChange={(e) =>
-                              handleReservationChargeChange(
-                                'extraWeek',
                                 Number.parseInt(e.target.value)
                               )
                             }

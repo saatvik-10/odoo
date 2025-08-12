@@ -67,7 +67,7 @@ export default function RentalOrderPage({
 
         // Fetch order(s) — assuming API can return either a single object or an array
         const orderData = await api.rental.getRentalByID(id);
-        console.log(orderData)
+        console.log(orderData);
 
         let fetchedOrders = Array.isArray(orderData) ? orderData : [orderData];
         setOrders(fetchedOrders);

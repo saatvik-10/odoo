@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/form';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 interface UserSignUpProps {
   onSuccess?: (data: RegisterUserValidator) => void;
@@ -59,6 +60,8 @@ export function UserSignUp({ onSuccess, redirectTo }: UserSignUpProps) {
 
     try {
       const res = await api.auth.registerUser(data);
+      Cookies.set('token', res.token);
+      Cookies.set('role', 'user');
       setSuccess(true);
       form.reset();
       if (onSuccess) {

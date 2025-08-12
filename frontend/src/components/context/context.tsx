@@ -68,6 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userRole = Cookies.get('role') as UserRole;
 
       console.log(authToken, 'token', userRole, 'role');
+      console.log(authToken)
 
       if (authToken && userRole) {
         let userData = null;

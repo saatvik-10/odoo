@@ -28,6 +28,7 @@ import {
   LoginUserValidator,
 } from '@/validators/user.validator';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 interface UserSignInProps {
   onSuccess?: (data: LoginUserValidator) => void;
@@ -57,6 +58,8 @@ export function UserSignIn({ onSuccess, redirectTo }: UserSignInProps) {
 
     try {
       const res = await api.auth.loginUser(data);
+      Cookies.set('token', res.token);
+      Cookies.set('role', 'user');
       setSuccess(true);
       form.reset();
       if (onSuccess) {
@@ -160,9 +163,11 @@ export function UserSignIn({ onSuccess, redirectTo }: UserSignInProps) {
 
             {/* Sign up link */}
             <div className='text-center text-sm'>
-              <span className='text-muted-foreground'>Don't have an account? </span>
-              <a 
-                href='/vendor-sign-up' 
+              <span className='text-muted-foreground'>
+                Don't have an account?{' '}
+              </span>
+              <a
+                href='/customer-sign-up'
                 className='text-primary hover:underline font-medium'
               >
                 Sign up

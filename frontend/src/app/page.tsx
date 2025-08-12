@@ -71,6 +71,16 @@ export default function LandingPage() {
                 <ArrowRight className='ml-2 h-5 w-5' />
               </Button>
             </Link>
+            <Link href='/customer-sign-in'>
+              <Button
+                variant='outline'
+                size='lg'
+                className='text-lg px-8 py-3 bg-transparent border-orange-600 cursor-pointer text-orange-600 hover:bg-orange-100 hover:text-orange-600'
+              >
+                Start as User
+                <ArrowRight className='ml-2 h-5 w-5' />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

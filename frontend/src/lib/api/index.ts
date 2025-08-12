@@ -35,20 +35,26 @@ class ApiSdk {
   private createAxios(): Axios {
     const ax = axios.create();
     ax.interceptors.request.use(async (config) => {
+      let token = '';
       if (typeof window === 'undefined') {
         const { cookies } = await import('next/headers');
         const cookieStore = await cookies();
-        config.headers['auth-admin'] = cookieStore.get('token')?.value;
+        token = cookieStore.get('token')?.value || '';
       } else {
-        config.headers['auth-admin'] = Cookies.get().token ?? '';
+        token = Cookies.get('token') || '';
       }
+      
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+      
       config.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+      console.log('API Request:', config.method?.toUpperCase(), config.url, 'Token:', token ? 'Present' : 'Missing');
 
       return config;
     });
     return ax;
   }
-
   getAxios() {
     return this._axios;
   }

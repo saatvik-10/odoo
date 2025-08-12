@@ -8,20 +8,30 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 const navItems = [
   { label: 'Dashboard', href: '/vendor-dashboard' },
   { label: 'Rentals', href: '/vendor-rentals' },
-  { label: 'Orders', href: '/vendor-orders' },
+  // { label: 'Orders', href: '/vendor-orders' },
   { label: 'Products', href: '/vendor-products' },
-  { label: 'Pricing', href: '/vendor-pricing' },
-  { label: 'Reports', href: '/vendor-reports' },
-  { label: 'Settings', href: '/vendor-settings' },
+  // { label: 'Pricing', href: '/vendor-pricing' },
+  // { label: 'Reports', href: '/vendor-reports' },
+  // { label: 'Settings', href: '/vendor-settings' },
 ];
 
 export function VendorNavbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  const route = useRouter();
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    Cookies.remove('role');
+    route.push('/vendor-sign-in');
+  };
 
   return (
     <nav className='w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-40'>
@@ -92,14 +102,29 @@ export function VendorNavbar() {
               <User className='h-4 w-4' />
             </AvatarFallback>
           </Avatar>
-          <span className='hidden sm:inline text-sm font-medium'>Vendor</span>
-          <Button
-            variant='outline'
-            size='sm'
-            className='text-xs hover:bg-orange-100'
-          >
-            Logout
-          </Button>
+          {Cookies.get('role') === 'vendor' && (
+            <span className='hidden sm:inline text-sm font-medium'>Vendor</span>
+          )}
+          {Cookies.get('role') === 'vendor' ? (
+            <Button
+              onClick={handleLogout}
+              variant='outline'
+              size='sm'
+              className='text-xs hover:bg-orange-100'
+            >
+              Logout
+            </Button>
+          ) : (
+            <Link href='/vendor-sign-in'>
+              <Button
+                variant='outline'
+                size='sm'
+                className='text-xs hover:bg-orange-100'
+              >
+                Sign In
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

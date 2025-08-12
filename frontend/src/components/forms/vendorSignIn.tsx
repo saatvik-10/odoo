@@ -28,6 +28,8 @@ import {
   loginVendorSchema,
 } from '@/validators/vendor.validator';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/context/context';
+import Cookies from 'js-cookie';
 
 interface VendorSignInProps {
   onSuccess?: (data: LoginVendorValidator) => void;
@@ -41,6 +43,7 @@ export function VendorSignIn({ onSuccess, redirectTo }: VendorSignInProps) {
   const [success, setSuccess] = useState<boolean>(false);
 
   const route = useRouter();
+  const { checkAuth } = useAuth();
 
   const form = useForm<LoginVendorValidator>({
     resolver: zodResolver(loginVendorSchema),
@@ -57,12 +60,16 @@ export function VendorSignIn({ onSuccess, redirectTo }: VendorSignInProps) {
 
     try {
       const res = await api.auth.loginVendor(data);
+      Cookies.set('token', res.token);
+      Cookies.set('role', 'vendor');
       setSuccess(true);
       form.reset();
       if (onSuccess) {
         onSuccess(res);
       }
       if (redirectTo) {
+        route.push(redirectTo);
+      } else {
         route.push('/vendor-dashboard');
       }
     } catch (error: any) {
@@ -160,9 +167,11 @@ export function VendorSignIn({ onSuccess, redirectTo }: VendorSignInProps) {
 
             {/* Sign up link */}
             <div className='text-center text-sm'>
-              <span className='text-muted-foreground'>Don't have an account? </span>
-              <a 
-                href='/vendor-sign-up' 
+              <span className='text-muted-foreground'>
+                Don't have an account?{' '}
+              </span>
+              <a
+                href='/vendor-sign-up'
                 className='text-primary hover:underline font-medium'
               >
                 Sign up
@@ -185,7 +194,7 @@ export function VendorSignIn({ onSuccess, redirectTo }: VendorSignInProps) {
                   Signed in successfully
                 </>
               ) : (
-                'Sign Up'
+                'Sign In'
               )}
             </Button>
 

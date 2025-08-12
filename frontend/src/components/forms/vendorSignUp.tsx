@@ -28,6 +28,7 @@ import {
   RegisterVendorValidator,
 } from '@/validators/vendor.validator';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 interface UserSignUpProps {
   onSuccess?: (data: RegisterVendorValidator) => void;
@@ -59,6 +60,8 @@ export function VendorSignUp({ onSuccess, redirectTo }: UserSignUpProps) {
 
     try {
       const res = await api.auth.registerVendor(data);
+      Cookies.set('token', res.token);
+      Cookies.set('role', 'vendor');
       setSuccess(true);
       form.reset();
       if (onSuccess) {
