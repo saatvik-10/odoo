@@ -23,13 +23,7 @@ const app = new Hono();
 app.use(logger());
 
 // CORS Middleware
-app.use(cors({
-  origin: "*", // Allow all origins
-  allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  allowHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Allow credentials
-  
-}));
+app.use(cors());
 
 // Health check endpoint
 app.get("/health", (c) => {
