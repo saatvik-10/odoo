@@ -37,6 +37,7 @@ export class ProductController {
   async getProductById(ctx: Context) {
     try {
       const id = ctx.req.param("id");
+      console.log("Fetching product with ID:", id);
       const product = await productService.getProductById(id as string);
       return ctx.json(product);
     } catch (error) {
