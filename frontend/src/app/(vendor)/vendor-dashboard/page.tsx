@@ -5,10 +5,6 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
-  Users,
-  Package,
-  DollarSign,
-  ShoppingCart,
 } from 'lucide-react';
 import {
   Card,

@@ -13,12 +13,12 @@ export class ProductsAPI {
   }
 
   async getProducts(): Promise<Product[]> {
-    const { data: res } = await this.axios.get('/products');
+    const { data: res } = await this.axios.get('/product');
     return res;
   }
 
   async getProductsByVendorId(vendorId: string): Promise<Product[]> {
-    const { data: res } = await this.axios.get(`/products/vendor/${vendorId}`);
+    const { data: res } = await this.axios.get(`/product/vendor/${vendorId}`);
     return res;
   }
 
