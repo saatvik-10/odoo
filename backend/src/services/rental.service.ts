@@ -11,7 +11,7 @@ export class RentalService {
       amt: number;
       tax: number;
       couponDiscount: number;
-    },
+    }
   ) {
     await Rental.create({
       ...data,
@@ -30,7 +30,10 @@ export class RentalService {
   }
 
   async getVendorRentals(vendorID: string) {
-    return Rental.find({ vendor: vendorID }).populate(["user", "products.product"]);
+    return Rental.find({ vendor: vendorID }).populate([
+      "user",
+      "products.product",
+    ]);
   }
 
   async getRentalByID(rentalID: string) {
@@ -46,5 +49,9 @@ export class RentalService {
       status: "Cancelled",
       reasonForCancellation: reason,
     });
+  }
+
+  async verifyPayment(id: string) {
+    await Rental.updateOne({ _id: id }, { paymentStatus: "confirmed" });
   }
 }

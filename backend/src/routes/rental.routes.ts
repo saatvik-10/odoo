@@ -9,6 +9,8 @@ const app = new Hono();
 
 app.post("/", authenticate, rentalController.createRental);
 
+app.post("/verify/payment", authenticate, rentalController.verifyRentalPayment);
+
 app.get("/", authenticate, rentalController.getRentalsForUser);
 
 app.get("/vendor/:id", rentalController.getRentalsByVendorId);

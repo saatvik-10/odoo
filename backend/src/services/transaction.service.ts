@@ -8,7 +8,7 @@ export class TransactionService {
     await new Promise((resolve, reject) => {
       razorpayIns.orders
         .create({
-          amount: amount,
+          amount: Math.ceil(amount),
           currency: "INR",
         })
         .then(async (order) => {
@@ -44,5 +44,9 @@ export class TransactionService {
 
   async updateTransactionStatus(id: string, status: string) {
     return Transaction.findByIdAndUpdate(id, { status });
+  }
+
+  async getTransactionByOrderID(orderID: string) {
+    return Transaction.findOne({ orderID });
   }
 }

@@ -51,18 +51,18 @@ export class RentalController {
 
         switch (body.duration.durationType) {
           case "monthly":
-            amt += price!.monthly ?? 0 * body.duration.durationValue;
+            amt += (price!.monthly ?? 0) * body.duration.durationValue;
             break;
           case "daily":
-            amt += price!.daily ?? 0 * body.duration.durationValue;
+            amt += (price!.daily ?? 0) * body.duration.durationValue;
             break;
           case "hourly":
-            amt += price!.hourly ?? 0 * body.duration.durationValue;
+            amt += (price!.hourly ?? 0) * body.duration.durationValue;
             break;
           default:
         }
       });
-      let tax = amt + amt * 0.18;
+      let tax = amt * 0.18;
 
       //TODO: Check if products are available for the same time.
       //
@@ -103,10 +103,13 @@ export class RentalController {
           couponDiscount,
         },
       );
+      console.log(body);
+      console.log("Rental created with ID:", rentalID);
+      console.log("Amount:", amt);
 
       const orderID = await transactionService.createTransaction(
         rentalID,
-        amt + tax - couponDiscount,
+        (amt + tax - couponDiscount) * 100,
       );
 
       return ctx.json(
@@ -117,6 +120,33 @@ export class RentalController {
       );
     } catch (error) {
       console.error(error);
+      return ctx.json(
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async verifyRentalPayment(ctx: Context) {
+    try {
+      const body = await ctx.req.json();
+      const orderID = body.order_id;
+      const transaction =
+        await transactionService.getTransactionByOrderID(orderID);
+      if (!transaction) {
+        return ctx.json(
+          { msg: "Transaction not found" },
+          StatusCodes.NOT_FOUND,
+        );
+      }
+      await rentalService.verifyPayment(transaction.orderID!);
+      await transactionService.updateTransactionStatus(
+        transaction._id.toString(),
+        "Paid",
+      );
+      return ctx.json({ msg: "Payment verified successfully" }, StatusCodes.OK);
+    } catch (err) {
+      console.error(err);
       return ctx.json(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
         StatusCodes.INTERNAL_SERVER_ERROR,
