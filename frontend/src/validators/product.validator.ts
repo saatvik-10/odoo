@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod';
 
 export const productSchema = z.object({
   _id: z.any(),
@@ -18,7 +18,7 @@ export const productSchema = z.object({
       daily: z.number().min(1),
       monthly: z.number().min(1),
       // yearly: z.number().min(1),
-    }),
+    })
   ),
   extraPricing: z.object({
     hourly: z.number().min(1),
@@ -34,15 +34,17 @@ export const productSchema = z.object({
 export type Product = z.infer<typeof productSchema>;
 
 export const createProductSchema = productSchema.omit({
-  id: true,
+  _id: true,
   vendor: true,
 });
 
 export type CreateProduct = z.infer<typeof createProductSchema>;
 
-export const updateProductSchema = productSchema.omit({
-  id: true,
-  vendor: true,
-}).partial();
+export const updateProductSchema = productSchema
+  .omit({
+    _id: true,
+    vendor: true,
+  })
+  .partial();
 
 export type UpdateProduct = z.infer<typeof updateProductSchema>;

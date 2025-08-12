@@ -43,7 +43,7 @@ export function CustomerNavbar() {
           Rentals
         </Link>
         <Link href='/cart'>Cart</Link>
-        <Link href='/my/rentals'>My Rentals</Link>
+        <Link href='/myRentals'>My Rentals</Link>
         <Link href='/support'>Support</Link>
         <div className='ml-auto flex items-center gap-4'>
           {isAuthenticated && userRole === 'user' && (

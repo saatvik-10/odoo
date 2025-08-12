@@ -100,34 +100,37 @@ export function CreateProductModal({
     // Check if user is authenticated
     const token = Cookies.get('token');
     const role = Cookies.get('role');
-    
+
     if (!token) {
-      setError('You must be logged in to upload images. Please log in and try again.');
+      setError(
+        'You must be logged in to upload images. Please log in and try again.'
+      );
       return;
     }
-    
+
     if (role !== 'vendor') {
       setError('Only vendors can upload product images.');
       return;
     }
-    
+
     setUploadingImage(idx);
     try {
-      const response = await api.product.uploadMedia(file);
-      console.log('Upload response:', response);
+      const response: any = await api.product.uploadMedia(file); // returns a string URL
+      console.log('Upload response (URL):', response);
 
       let imageUrl = '';
-      //   if (Array.isArray(response) && response.length > 0) {
-      imageUrl = response[0];
-      //   } else if (typeof response === 'string') {
-      //     imageUrl = response;
-      //   } else {
-      //     imageUrl = (response as any)?.url || (response as any)?.data?.url;
-      //   }
+      if (typeof response === 'string') {
+        imageUrl = response;
+      } else if (Array.isArray(response) && response.length > 0) {
+        // Fallback if API later returns array
+        imageUrl = response[0];
+      } else if (response && (response as any).url) {
+        imageUrl = (response as any).url;
+      }
 
-      //   if (!imageUrl || typeof imageUrl !== 'string') {
-      //     throw new Error('No valid URL returned from upload');
-      //   }
+      if (!imageUrl || typeof imageUrl !== 'string') {
+        throw new Error('No valid URL returned from upload');
+      }
 
       const currentImages = form.getValues('images') || [];
       const updatedImages = [...currentImages];

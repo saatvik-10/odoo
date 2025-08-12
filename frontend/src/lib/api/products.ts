@@ -12,7 +12,7 @@ export class ProductsAPI {
     this.axios = axios;
   }
 
-  async getProducts(): Promise<Product[]> {
+  async getProduct(): Promise<Product[]> {
     const { data: res } = await this.axios.get('/product');
     return res;
   }

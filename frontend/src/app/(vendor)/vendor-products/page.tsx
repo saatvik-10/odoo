@@ -53,7 +53,7 @@ export default function AdminProductPage() {
 
   const handleProductSelect = (productId: string) => {
     setSelectedProductId(productId);
-    const product = products.find((p) => p._id === Number.parseInt(productId));
+    const product = products.find((p) => String(p._id) === productId);
     if (product) {
       setCurrentProduct(product);
       setEditedProduct({ ...product });
@@ -217,14 +217,16 @@ export default function AdminProductPage() {
                     <SelectValue placeholder='Select a product' />
                   </SelectTrigger>
                   <SelectContent>
-                    {products.map((product) => (
-                      <SelectItem
-                        key={product._id || `temp-${Math.random()}`}
-                        value={product._id ? product._id.toString() : ''}
-                      >
-                        {product.name}
-                      </SelectItem>
-                    ))}
+                    {products
+                      .filter((product) => product._id !== null && product._id !== undefined && product._id !== '')
+                      .map((product) => (
+                        <SelectItem
+                          key={String(product._id)}
+                          value={String(product._id)}
+                        >
+                          {product.name || `Product ${product._id}`}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>

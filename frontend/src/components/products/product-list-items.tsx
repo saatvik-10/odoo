@@ -6,7 +6,7 @@ import type { Product } from '@/validators/product.validator';
 
 interface ProductListItemProps {
   product: Product;
-  handleRoute: (id: string) => void;
+  handleRoute: (_id: string) => void;
 }
 
 export function ProductListItem({

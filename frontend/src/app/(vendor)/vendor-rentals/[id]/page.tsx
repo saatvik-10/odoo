@@ -33,7 +33,6 @@ export default function RentalDetailPage() {
       )
     );
 
-    // Here you would typically make an API call to update the status
     console.log(`Status changed to: ${newStatus}`, data);
   };
 
